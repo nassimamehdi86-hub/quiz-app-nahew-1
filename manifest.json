@@ -1,0 +1,19 @@
+{
+  "name": "النحو — دفتر القواعد الشامل",
+  "short_name": "النحو",
+  "description": "تطبيق شامل يجمع دروس النحو: خرائط ذهنية هرمية، استماع لشرح الأستاذ، وتمارين تفاعلية لكل درس.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF7EC",
+  "theme_color": "#1E2A44",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
