@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>النحو | دفتر القواعد الشامل</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1E2A44">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="النحو">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Rakkas&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF7EC;
+    --grid:rgba(96,132,168,0.16);
+    --ink:#1E2A44;
+    --ink-soft:#4B5A78;
+    --pencil:#7A6A50;
+    --yellow: #FFE58A;
+    --green: #B7E8B0;
+    --pink: #FFC6DA;
+    --blue: #AFD4F2;
+    --orange:#FFCA9B;
+    --lilac: #D8C6F0;
+    --red-pen:#D6483F;
+    --green-pen:#2E8B57;
+    --purple-pen:#6E4FA3;
+    --blue-pen:#2F6FB0;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; scroll-behavior:smooth; }
+  body{
+    background:
+      repeating-linear-gradient(0deg, var(--grid) 0px, var(--grid) 1px, transparent 1px, transparent 28px),
+      repeating-linear-gradient(90deg, var(--grid) 0px, var(--grid) 1px, transparent 1px, transparent 28px),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Cairo', sans-serif;
+    padding:0 14px 60px;
+    max-width:820px;
+    margin:0 auto;
+  }
+  mark{ padding:1px 6px; border-radius:5px; font-weight:800; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+  mark.y{ background:var(--yellow); }
+  mark.g{ background:var(--green); }
+  mark.p{ background:var(--pink); }
+  mark.b{ background:var(--blue); }
+  mark.o{ background:var(--orange); }
+  mark.l{ background:var(--lilac); }
+
+  /* ===== Sticky nav ===== */
+  .navbar{
+    position:sticky; top:0; z-index:50; background:rgba(251,247,236,0.94); backdrop-filter:blur(4px);
+    display:flex; gap:6px; overflow-x:auto; padding:10px 0; margin:0 -14px 4px; padding-inline:14px;
+    border-bottom:2px solid rgba(30,42,68,0.15); -webkit-overflow-scrolling:touch;
+  }
+  .navbar a, .navbar button.nav-link{
+    flex-shrink:0; text-decoration:none; font-size:11.5px; font-weight:800; color:var(--ink);
+    background:#fff; border:1.5px solid var(--ink); border-radius:999px; padding:6px 13px; white-space:nowrap;
+    font-family:'Cairo'; cursor:pointer;
+  }
+  .navbar a:active, .navbar button.nav-link:active{ background:var(--yellow); }
+  .install-btn{
+    flex-shrink:0; display:none; align-items:center; gap:6px; font-size:11.5px; font-weight:800; color:#1E2A44;
+    background:linear-gradient(135deg,#FFE58A,#E7C170); border:1.5px solid var(--ink); border-radius:999px;
+    padding:6px 14px; white-space:nowrap; cursor:pointer; font-family:'Cairo';
+  }
+  .install-btn.show{ display:inline-flex; }
+  .install-toast{
+    position:fixed; left:14px; right:14px; bottom:16px; z-index:80; max-width:790px; margin:0 auto;
+    background:var(--ink); color:var(--paper); border-radius:14px; padding:12px 16px; font-size:12.5px;
+    display:none; align-items:center; justify-content:space-between; gap:10px; box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  }
+  .install-toast.show{ display:flex; }
+  .install-toast button{
+    flex-shrink:0; border:none; border-radius:999px; padding:8px 16px; font-family:'Cairo'; font-weight:800;
+    font-size:12px; cursor:pointer;
+  }
+  .install-toast .go{ background:var(--yellow); color:var(--ink); }
+  .install-toast .dismiss{ background:transparent; color:var(--paper); text-decoration:underline; }
+
+  /* ===== Header ===== */
+  .page-title{
+    text-align:center; font-family:'Rakkas', serif; font-size:15px; color:var(--pencil);
+    letter-spacing:2px; margin:14px 0 6px;
+  }
+  .page-sub{ text-align:center; font-size:12.5px; color:var(--ink-soft); margin:0 0 20px; }
+
+  /* ===== Home: lesson grid ===== */
+  .lesson-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:10px 0 30px; }
+  .lesson-card{
+    background:#fff; border:2.5px solid var(--ink); border-radius:16px; padding:18px 10px 14px;
+    text-align:center; cursor:pointer; box-shadow:5px 5px 0 rgba(30,42,68,0.10); font-family:'Cairo';
+  }
+  .lesson-card:active{ transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(30,42,68,0.10); }
+  .lesson-card .lc-badge{
+    width:64px; height:64px; border-radius:50%; margin:0 auto 10px; display:flex; align-items:center; justify-content:center;
+    font-family:'Aref Ruqaa', serif; font-weight:700; font-size:20px; color:var(--ink); border:2.5px solid var(--ink);
+  }
+  .lesson-card .lc-title{ font-weight:800; font-size:13.5px; color:var(--ink); }
+  .lesson-card .lc-desc{ font-size:10.5px; color:var(--ink-soft); margin-top:4px; line-height:1.6; }
+  .lesson-card .lc-progress{ margin-top:8px; font-size:10px; font-weight:800; color:var(--green-pen); }
+  .lesson-card.soon{ opacity:.6; border-style:dashed; cursor:default; }
+  .lesson-card.soon:active{ transform:none; box-shadow:5px 5px 0 rgba(30,42,68,0.10); }
+
+  /* ===== Lesson view header ===== */
+  .lesson-topbar{ display:flex; align-items:center; gap:10px; margin:10px 0 4px; }
+  .back-btn{
+    flex-shrink:0; display:flex; align-items:center; gap:5px; background:#fff; border:1.5px solid var(--ink);
+    border-radius:999px; padding:7px 14px; font-family:'Cairo'; font-weight:800; font-size:12.5px; color:var(--ink); cursor:pointer;
+  }
+  .back-btn:active{ background:var(--yellow); }
+
+  .hub{ text-align:center; margin:6px auto 8px; position:relative; }
+  .hub .badge{
+    display:inline-block; background:var(--paper); border:3px solid var(--ink);
+    border-radius:50%; width:170px; height:170px; padding-top:38px;
+    box-shadow:6px 6px 0 rgba(30,42,68,0.12); transform:rotate(-2deg);
+  }
+  .hub .badge b{ display:block; font-family:'Aref Ruqaa', serif; font-weight:700; font-size:30px; color:var(--ink); }
+  .hub .badge span{ display:block; font-size:11px; color:var(--ink-soft); margin-top:8px; padding:0 16px; line-height:1.6; }
+  .hub-def{ max-width:520px; margin:14px auto 0; text-align:center; font-size:14px; line-height:2; color:var(--ink-soft); }
+  .hub-def b{ color:var(--ink); }
+
+  /* ===== speak button (shared) ===== */
+  .speak-btn{
+    width:28px; height:28px; border-radius:50%; border:2px solid var(--ink); background:#fff;
+    display:inline-flex; align-items:center; justify-content:center; font-size:12px; cursor:pointer;
+    box-shadow:2px 2px 0 rgba(30,42,68,0.15); flex-shrink:0;
+  }
+  .speak-btn.speaking{ background:var(--yellow); }
+  .hub-speak{ margin:10px auto 0; }
+
+  /* ===== Audio / video section ===== */
+  .listen-wrap{
+    background:#fff; border:2px solid var(--ink); border-radius:16px; padding:16px;
+    box-shadow:5px 5px 0 rgba(30,42,68,0.10); margin:26px 0 22px;
+  }
+  .listen-title{
+    display:flex; align-items:center; gap:8px; font-family:'Aref Ruqaa', serif; font-weight:700; font-size:18px;
+    margin-bottom:8px;
+  }
+  .listen-desc{ font-size:12px; color:var(--ink-soft); line-height:1.9; margin-bottom:12px; }
+  .video-frame{
+    position:relative; width:100%; padding-top:56.25%;
+    border-radius:12px; overflow:hidden; border:1.5px solid rgba(30,42,68,0.25); background:#000;
+  }
+  .video-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .video-tabs{ display:flex; gap:8px; margin-bottom:10px; }
+  .video-tab{
+    flex:1; text-align:center; padding:8px 6px; border-radius:10px; border:1.5px solid var(--ink);
+    background:#fff; font-weight:800; font-size:12.5px; cursor:pointer; color:var(--ink);
+  }
+  .video-tab.active{ background:var(--ink); color:#fff; }
+
+  /* ===== PDF Section ===== */
+  .pdf-section{
+    background:#fff; border:2px solid var(--ink); border-radius:16px; padding:16px;
+    box-shadow:5px 5px 0 rgba(30,42,68,0.10); margin:22px 0;
+  }
+  .pdf-title{
+    display:flex; align-items:center; gap:8px; font-family:'Aref Ruqaa', serif; font-weight:700; font-size:18px;
+    margin-bottom:10px;
+  }
+  .pdf-container{
+    position:relative; width:100%; border:1.5px solid rgba(30,42,68,0.25); border-radius:12px; 
+    overflow:hidden; background:#f5f5f5; height:500px; display:flex; flex-direction:column;
+  }
+  .pdf-toolbar{
+    background:var(--ink); color:#fff; padding:10px 12px; display:flex; justify-content:space-between; 
+    align-items:center; gap:8px; flex-wrap:wrap; font-size:12px;
+  }
+  .pdf-info{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .pdf-toolbar button{
+    background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:6px 12px; 
+    border-radius:8px; cursor:pointer; font-size:12px; font-weight:700; font-family:'Cairo'; 
+    transition:all 0.3s; white-space:nowrap;
+  }
+  .pdf-toolbar button:hover{ background:rgba(255,255,255,0.25); }
+  .pdf-toolbar button.fullscreen{ 
+    background:linear-gradient(135deg,#FFE58A,#E7C170); color:var(--ink); border:1px solid var(--ink);
+  }
+  .pdf-toolbar button.fullscreen:hover{ background:var(--orange); }
+  .pdf-viewer{
+    flex:1; overflow:auto; display:flex; align-items:center; justify-content:center; background:#fff;
+    position:relative;
+  }
+  .pdf-viewer canvas{ max-width:100%; height:auto; display:block; }
+  .pdf-loader{ text-align:center; color:var(--ink); font-size:13px; padding:20px; }
+  .pdf-loader.loading{ display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; }
+  .pdf-loader.loading::after{ content:'⏳'; display:block; font-size:32px; margin-top:12px; animation:spin 1s linear infinite; }
+  @keyframes spin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+  
+  /* Full screen PDF modal */
+  .pdf-modal{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:100; 
+    flex-direction:column; animation:fadeIn 0.3s;
+  }
+  .pdf-modal.show{ display:flex; }
+  @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+  .pdf-modal-toolbar{
+    background:var(--ink); padding:12px 16px; display:flex; justify-content:space-between; align-items:center; gap:10px;
+  }
+  .pdf-modal-toolbar button{
+    background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:8px 16px;
+    border-radius:8px; cursor:pointer; font-size:13px; font-weight:700; font-family:'Cairo';
+  }
+  .pdf-modal-toolbar button:hover{ background:rgba(255,255,255,0.25); }
+  .pdf-modal-toolbar button.close{ background:var(--red-pen); }
+  .pdf-modal-content{
+    flex:1; overflow:auto; display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .pdf-modal-content canvas{ max-width:100%; height:auto; }
+
+  /* =========================================================
+     MIND MAP (hierarchical tree)
+  ========================================================= */
+  .mm-title{ text-align:center; font-family:'Aref Ruqaa', serif; font-weight:700; font-size:20px; margin:36px 0 4px; }
+  .mm-hint{ text-align:center; font-size:11.5px; color:var(--ink-soft); margin-bottom:16px; }
+  .mm-wrap{ margin:10px 0 8px; }
+  .mm-root{ display:flex; justify-content:center; margin-bottom:16px; }
+  .mm-root-box{
+    background:var(--ink); color:var(--paper); border-radius:16px; padding:14px 26px; text-align:center;
+    box-shadow:5px 5px 0 rgba(30,42,68,0.18);
+  }
+  .mm-root-box b{ display:block; font-family:'Aref Ruqaa', serif; font-size:24px; }
+  .mm-root-box span{ display:block; font-size:11px; margin-top:6px; opacity:.88; max-width:280px; line-height:1.8; }
+
+  .mm-branches{ display:flex; flex-direction:column; gap:12px; position:relative; padding-right:20px; border-right:3px dashed rgba(30,42,68,0.3); margin-right:8px; }
+  .mm-branch{ background:#fff; border:2px solid var(--ink); border-radius:12px; position:relative; overflow:hidden; }
+  .mm-branch::before{ content:''; position:absolute; right:-20px; top:21px; width:17px; height:2px; background:rgba(30,42,68,0.3); }
+  .mm-branch summary{ list-style:none; cursor:pointer; padding:11px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:'Cairo'; font-weight:800; font-size:13.5px; }
+  .mm-branch summary::-webkit-details-marker{ display:none; }
+  .mm-branch .chev{ font-size:11px; transition:transform .2s; flex-shrink:0; }
+  .mm-branch:not([open]) .chev{ transform:rotate(-90deg); }
+  .mm-branch .branch-speak-inline{ margin-inline-start:auto; }
+
+  .mm-branch.c-blue summary{ background:var(--blue); }
+  .mm-branch.c-blue{ border-color:var(--blue-pen); }
+  .mm-branch.c-green summary{ background:var(--green); }
+  .mm-branch.c-green{ border-color:var(--green-pen); }
+  .mm-branch.c-purple summary{ background:var(--lilac); }
+  .mm-branch.c-purple{ border-color:var(--purple-pen); }
+  .mm-branch.c-orange summary{ background:var(--orange); }
+  .mm-branch.c-orange{ border-color:var(--red-pen); }
+  .mm-branch.c-gold summary{ background:linear-gradient(135deg,#FFE58A,#E7C170); }
+  .mm-branch.c-gold{ border-color:#B08B2E; }
+  .mm-branch.c-teal summary{ background:#A9E5DC; }
+  .mm-branch.c-teal{ border-color:#1D8C7A; }
+  .mm-branch.c-brown summary{ background:#E3C6A8; }
+  .mm-branch.c-brown{ border-color:#8B5A2B; }
+
+  .mm-branch-body{ padding:14px 14px 16px; }
+
+  /* ----- rule / example bubbles (colored per branch) ----- */
+  .mm-rule{
+    position:relative; font-size:13.5px; font-weight:700; line-height:2.05;
+    padding:12px 14px; border-radius:4px 18px 18px 18px; margin-bottom:10px;
+    border:2.5px solid var(--ink); box-shadow:3px 3px 0 rgba(30,42,68,0.12);
+  }
+  .mm-rule::before{ content:'💡'; position:absolute; top:-13px; right:12px; font-size:16px; background:#fff; border-radius:50%; padding:2px 5px; border:2px solid var(--ink); line-height:1; }
+  .mm-rule b{ font-weight:800; }
+  .mm-example{
+    position:relative; font-size:12.5px; font-weight:600; line-height:1.9;
+    padding:10px 14px 10px 14px; border-radius:18px 4px 18px 18px; margin-top:2px;
+    border:2px dashed var(--ink-soft); background:#fff;
+  }
+  .mm-example::before{ content:'✏️ مثال:'; display:block; font-size:10.5px; font-weight:800; margin-bottom:4px; opacity:.85; }
+  .mm-example b{ font-weight:800; }
+
+  .mm-summary-list{ font-size:13px; line-height:2.3; font-weight:700; }
+  .mm-summary-list b{ display:inline-block; padding:1px 9px; border-radius:999px; background:#B08B2E; color:#fff; font-weight:800; margin-inline-end:4px; }
+
+  /* colors per branch: bubble background/border/text tuned per palette */
+  .mm-branch.c-blue .mm-rule{ background:#E4F1FC; border-color:var(--blue-pen); color:#0f3a63; }
+  .mm-branch.c-blue .mm-example{ border-color:var(--blue-pen); color:#0f3a63; }
+  .mm-branch.c-green .mm-rule{ background:#E4F8E2; border-color:var(--green-pen); color:#144a2c; }
+  .mm-branch.c-green .mm-example{ border-color:var(--green-pen); color:#144a2c; }
+  .mm-branch.c-purple .mm-rule{ background:#F1E9FB; border-color:var(--purple-pen); color:#3d215e; }
+  .mm-branch.c-purple .mm-example{ border-color:var(--purple-pen); color:#3d215e; }
+  .mm-branch.c-orange .mm-rule{ background:#FDEBE0; border-color:var(--red-pen); color:#7a1f18; }
+  .mm-branch.c-orange .mm-example{ border-color:var(--red-pen); color:#7a1f18; }
+  .mm-branch.c-gold .mm-rule{ background:#FFF6DC; border-color:#B08B2E; color:#5c4413; }
+  .mm-branch.c-gold .mm-example{ border-color:#B08B2E; color:#5c4413; }
+  .mm-branch.c-teal .mm-rule{ background:#E1F7F3; border-color:#1D8C7A; color:#0e4941; }
+  .mm-branch.c-teal .mm-example{ border-color:#1D8C7A; color:#0e4941; }
+  .mm-branch.c-brown .mm-rule{ background:#F5E9DC; border-color:#8B5A2B; color:#4a3016; }
+  .mm-branch.c-brown .mm-example{ border-color:#8B5A2B; color:#4a3016; }
+
+  .mm-children{ display:flex; flex-direction:column; gap:10px; margin-top:12px; padding-right:18px; border-right:3px dashed rgba(30,42,68,0.3); }
+  .mm-leaf{ background:#fff; border:2.5px solid rgba(30,42,68,0.3); border-radius:14px; padding:11px 14px; position:relative; box-shadow:2px 2px 0 rgba(30,42,68,0.08); }
+  .mm-leaf::before{ content:''; position:absolute; right:-18px; top:17px; width:15px; height:3px; background:rgba(30,42,68,0.3); }
+  .mm-leaf-title{ font-weight:800; font-size:12.5px; margin-bottom:6px; display:inline-block; padding:3px 12px; border-radius:999px; color:#fff; }
+  .mm-leaf-rule{ font-size:12.3px; font-weight:700; line-height:1.95; margin-top:4px; }
+  .mm-leaf-example{ font-size:11.8px; font-weight:600; margin-top:7px; border-top:1.5px dashed rgba(30,42,68,0.25); padding-top:6px; }
+  .mm-leaf-example b{ font-weight:800; }
+
+  .mm-branch.c-blue .mm-leaf{ border-color:var(--blue-pen); }
+  .mm-branch.c-blue .mm-leaf-title{ background:var(--blue-pen); }
+  .mm-branch.c-blue .mm-leaf-rule, .mm-branch.c-blue .mm-leaf-example{ color:#0f3a63; }
+  .mm-branch.c-green .mm-leaf{ border-color:var(--green-pen); }
+  .mm-branch.c-green .mm-leaf-title{ background:var(--green-pen); }
+  .mm-branch.c-green .mm-leaf-rule, .mm-branch.c-green .mm-leaf-example{ color:#144a2c; }
+  .mm-branch.c-purple .mm-leaf{ border-color:var(--purple-pen); }
+  .mm-branch.c-purple .mm-leaf-title{ background:var(--purple-pen); }
+  .mm-branch.c-purple .mm-leaf-rule, .mm-branch.c-purple .mm-leaf-example{ color:#3d215e; }
+  .mm-branch.c-orange .mm-leaf{ border-color:var(--red-pen); }
+  .mm-branch.c-orange .mm-leaf-title{ background:var(--red-pen); }
+  .mm-branch.c-orange .mm-leaf-rule, .mm-branch.c-orange .mm-leaf-example{ color:#7a1f18; }
+  .mm-branch.c-gold .mm-leaf{ border-color:#B08B2E; }
+  .mm-branch.c-gold .mm-leaf-title{ background:#B08B2E; }
+  .mm-branch.c-gold .mm-leaf-rule, .mm-branch.c-gold .mm-leaf-example{ color:#5c4413; }
+  .mm-branch.c-teal .mm-leaf{ border-color:#1D8C7A; }
+  .mm-branch.c-teal .mm-leaf-title{ background:#1D8C7A; }
+  .mm-branch.c-teal .mm-leaf-rule, .mm-branch.c-teal .mm-leaf-example{ color:#0e4941; }
+  .mm-branch.c-brown .mm-leaf{ border-color:#8B5A2B; }
+  .mm-branch.c-brown .mm-leaf-title{ background:#8B5A2B; }
+  .mm-branch.c-brown .mm-leaf-rule, .mm-branch.c-brown .mm-leaf-example{ color:#4a3016; }
+
+  /* ===== Section titles ===== */
+  .ex-title{ text-align:center; font-family:'Aref Ruqaa', serif; font-weight:700; font-size:22px; margin:40px 0 6px; color:var(--ink); }
+  .ex-sub{ text-align:center; font-size:12.5px; color:var(--ink-soft); margin-bottom:18px; }
+  .ex-list{ display:flex; flex-direction:column; gap:12px; }
+  .ex-card{ background:#fff; border:2px solid var(--ink); border-radius:14px; padding:14px 16px; box-shadow:4px 4px 0 rgba(30,42,68,0.08); }
+  .ex-card .qn{ display:flex; gap:10px; align-items:flex-start; }
+  .ex-card .num{ flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--ink); color:var(--paper); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; }
+  .ex-card .sent{ font-size:16px; font-weight:700; line-height:1.9; }
+
+  .score-badge{ text-align:center; font-weight:800; font-size:12.5px; color:var(--ink-soft); margin:2px 0 16px; }
+  .score-badge b{ color:var(--green-pen); }
+
+  .exam-window{
+    background:#fff; border:2.5px solid var(--ink); border-radius:16px;
+    padding:0 16px 22px; margin:26px 0 22px; box-shadow:6px 6px 0 rgba(30,42,68,0.10);
+    position:relative;
+  }
+  .exam-window-header{
+    background:var(--ink); color:var(--paper); font-family:'Aref Ruqaa', serif; font-weight:700; font-size:19px;
+    margin:0 -16px 6px; padding:12px 40px; border-radius:14px 14px 0 0; text-align:center;
+  }
+  .exam-window .ex-title{ margin:0; }
+
+  .exam-menu-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px; }
+  .exam-menu-btn{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+    background:var(--paper); border:2px solid var(--ink); border-radius:14px; padding:16px 8px;
+    font-family:'Cairo'; font-weight:800; font-size:14px; color:var(--ink); cursor:pointer;
+    box-shadow:4px 4px 0 rgba(30,42,68,0.10); text-align:center;
+  }
+  .exam-menu-btn:active{ transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(30,42,68,0.10); }
+  .exam-menu-btn span{ font-size:11.5px; font-weight:600; color:var(--ink-soft); }
+  .exam-menu-btn.final-menu-btn{ grid-column:1 / -1; background:linear-gradient(135deg,#FFE58A,#E7C170); }
+
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(30,42,68,0.6); z-index:200;
+    display:none; align-items:flex-start; justify-content:center;
+    padding:16px 12px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-overlay .exam-window{ width:100%; max-width:720px; margin:14px auto; max-height:none; }
+  .modal-close{
+    position:absolute; top:10px; left:10px; z-index:5; width:30px; height:30px; border-radius:50%;
+    border:2px solid var(--paper); background:rgba(255,255,255,0.15); color:var(--paper);
+    font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .modal-close:active{ background:rgba(255,255,255,0.3); }
+
+  .student-card{
+    background:#fff; border:2px dashed var(--ink); border-radius:14px; padding:14px 16px; margin:18px 0 6px;
+    box-shadow:4px 4px 0 rgba(30,42,68,0.08);
+  }
+  .student-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .student-label{ font-weight:800; font-size:13.5px; white-space:nowrap; }
+  #studentName{
+    flex:1; min-width:150px; font-family:'Cairo'; font-size:14px; padding:9px 12px; border-radius:9px;
+    border:1.5px solid rgba(30,42,68,0.3); background:var(--paper); color:var(--ink);
+  }
+  #studentName:focus{ outline:none; border-color:var(--blue-pen); }
+  .student-history{ margin-top:10px; font-size:12px; color:var(--ink-soft); line-height:1.8; }
+  .student-history b{ color:var(--green-pen); }
+
+  .tf-options{ display:flex; gap:10px; margin-top:10px; }
+  .tf-btn{
+    flex:1; text-align:center; padding:10px 8px; border:1.5px solid rgba(30,42,68,0.3);
+    border-radius:10px; background:var(--paper); font-family:'Cairo'; font-weight:800; font-size:13.5px; color:var(--ink); cursor:pointer;
+  }
+  .tf-btn.correct{ border-color:var(--green-pen); background:rgba(183,232,176,0.4); }
+  .tf-btn.wrong{ border-color:var(--red-pen); background:rgba(255,198,218,0.35); }
+  .tf-btn:disabled{ cursor:default; opacity:.92; }
+
+  .finish-btn{
+    display:block; width:100%; border:none; border-radius:12px; padding:14px; font-family:'Cairo';
+    font-weight:800; font-size:15px; background:linear-gradient(135deg,#FFE58A,#E7C170); color:var(--ink);
+    cursor:pointer; box-shadow:3px 3px 0 rgba(30,42,68,0.15); margin-top:6px;
+  }
+  .finish-btn:active{ transform:translateY(1px); }
+  .final-result{ margin-top:18px; text-align:center; display:none; }
+  .final-result.show{ display:block; }
+  .overall-circle{
+    width:130px; height:130px; border-radius:50%; border:4px solid var(--ink); margin:0 auto 14px;
+    display:flex; align-items:center; justify-content:center; font-family:'Aref Ruqaa', serif; font-size:32px;
+    font-weight:700; background:var(--paper); box-shadow:5px 5px 0 rgba(30,42,68,0.12);
+  }
+  .breakdown{ text-align:right; max-width:340px; margin:0 auto 14px; font-size:13px; line-height:2.1; color:var(--ink-soft); }
+  .breakdown div{ border-bottom:1px dashed rgba(30,42,68,0.15); padding:4px 0; }
+  .delta{ font-weight:800; font-size:13px; border-radius:10px; padding:10px 14px; max-width:420px; margin:0 auto; line-height:1.8; }
+  .delta.up{ background:rgba(183,232,176,0.4); color:var(--green-pen); }
+  .delta.down{ background:rgba(255,198,218,0.35); color:var(--red-pen); }
+  .delta.same{ background:rgba(175,212,242,0.35); color:var(--blue-pen); }
+  .delta.first{ background:rgba(216,198,240,0.35); color:var(--purple-pen); }
+
+  .mcq-options{ display:flex; flex-direction:column; gap:8px; }
+  .mcq-btn{
+    display:block; width:100%; text-align:right; padding:10px 14px; border:1.5px solid rgba(30,42,68,0.3);
+    border-radius:10px; background:var(--paper); font-family:'Cairo'; font-weight:700; font-size:13.5px; color:var(--ink); cursor:pointer;
+  }
+  .mcq-btn.correct{ border-color:var(--green-pen); background:rgba(183,232,176,0.4); }
+  .mcq-btn.wrong{ border-color:var(--red-pen); background:rgba(255,198,218,0.35); }
+  .mcq-btn:disabled{ cursor:default; opacity:.92; }
+  .mcq-explain{ margin-top:10px; font-size:12.5px; color:var(--ink-soft); line-height:1.9; display:none; border-top:1.5px dashed rgba(30,42,68,0.25); padding-top:8px; }
+  .mcq-explain.show{ display:block; }
+  .mcq-explain b{ color:var(--ink); }
+
+  .fill-row{ display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap; }
+  .fill-row input{
+    flex:1; min-width:120px; font-family:'Cairo'; font-size:14px; padding:9px 12px; border-radius:9px;
+    border:1.5px solid rgba(30,42,68,0.3); background:var(--paper); color:var(--ink);
+  }
+  .fill-row input:focus{ outline:none; border-color:var(--blue-pen); }
+  .fill-row input.ok{ border-color:var(--green-pen); background:rgba(183,232,176,0.35); }
+  .fill-row input.bad{ border-color:var(--red-pen); background:rgba(255,198,218,0.28); }
+  .fill-row button{
+    flex-shrink:0; border:none; background:var(--ink); color:var(--paper); font-family:'Cairo'; font-weight:800;
+    font-size:12.5px; padding:9px 16px; border-radius:9px; cursor:pointer;
+  }
+  .fill-feedback{ margin-top:8px; font-size:12.5px; line-height:1.9; color:var(--ink-soft); display:none; }
+  .fill-feedback.show{ display:block; }
+  .fill-feedback b{ color:var(--ink); }
+
+  .ex-steps{ display:flex; gap:6px; margin-top:12px; margin-bottom:10px; }
+  .ex-steps span{ flex:1; height:6px; border-radius:4px; background:rgba(30,42,68,0.15); }
+  .ex-steps span.done{ background:var(--green-pen); }
+  .ex-steps span.current{ background:var(--blue-pen); }
+  .ex-steps span.wrong{ background:var(--red-pen); }
+
+  .ex-field{ margin-top:6px; }
+  .ex-field .flabel{ font-size:12px; font-weight:800; color:var(--ink-soft); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .ex-field .flabel .status{ font-size:14px; }
+  .ex-said{ min-height:38px; border:1.5px dashed rgba(30,42,68,0.3); border-radius:10px; padding:8px 12px; font-size:14.5px; font-weight:700; margin-bottom:8px; color:var(--ink-soft); display:flex; align-items:center; }
+  .ex-said.ok{ color:var(--green-pen); border-color:var(--green-pen); border-style:solid; background:rgba(183,232,176,0.28); }
+  .ex-said.bad{ color:var(--red-pen); border-color:var(--red-pen); border-style:solid; background:rgba(255,198,218,0.3); animation:shake .3s; }
+  @keyframes shake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+  .mic-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
+    border:none; border-radius:12px; padding:12px; font-family:'Cairo'; font-weight:800; font-size:13.5px;
+    background:linear-gradient(135deg,#5eb4a0,#3d8c7a); color:#08201a; cursor:pointer;
+  }
+  .mic-btn.recording{ background:linear-gradient(135deg,#e05252,#a92f2f); color:#fff; }
+  .mic-btn:disabled{ opacity:.5; cursor:not-allowed; }
+  .ex-done-card{ text-align:center; font-weight:800; color:var(--green-pen); padding:10px 0; }
+  .ex-unsupported{ text-align:center; font-size:12px; color:var(--ink-soft); padding:10px 4px; }
+
+  footer{ text-align:center; font-size:11.5px; color:var(--pencil); margin-top:40px; }
+
+  #lessonView{ display:none; }
+</style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <button class="nav-link" data-go-home>🏠 الرئيسية</button>
+    <button class="nav-link" id="navMindmap" style="display:none">🗺️ الخريطة الذهنية</button>
+    <button class="nav-link" id="navListen" style="display:none">🎧 استمع للدرس</button>
+    <button class="nav-link" data-modal="mcqModal" style="display:none" id="navMcq">✏️ تمرين 1</button>
+    <button class="nav-link" data-modal="fillModal" style="display:none" id="navFill">✏️ تمرين 2</button>
+    <button class="nav-link" data-modal="tfModal" style="display:none" id="navTf">✔️ تمرين 3</button>
+    <button class="nav-link" data-modal="oralModal" style="display:none" id="navOral">🎙️ تمرين 4</button>
+    <button class="nav-link" data-modal="finalModal" style="display:none" id="navFinal">🏁 نتيجتي</button>
+    <button class="install-btn" id="installBtn">📲 تثبيت التطبيق</button>
+  </nav>
+
+  <div class="install-toast" id="installToast">
+    <span>📲 ثبّتي «النحو» على شاشتك الرئيسية لفتحه كأي تطبيق آخر</span>
+    <span style="display:flex; gap:8px; flex-shrink:0">
+      <button class="go" id="installToastGo">تثبيت</button>
+      <button class="dismiss" id="installToastClose">لاحقًا</button>
+    </span>
+  </div>
+
+  <!-- ============ HOME VIEW ============ -->
+  <div id="homeView">
+    <div class="page-title">— دفتر القواعد —</div>
+    <p class="page-sub">اختر الدرس الذي تريد مراجعته 👇 كل درس يحتوي على خريطة ذهنية، شرح مسموع، وأربعة تمارين تفاعلية</p>
+    <div class="lesson-grid" id="lessonGrid"></div>
+  </div>
+
+  <!-- ============ LESSON VIEW ============ -->
+  <div id="lessonView">
+    <div class="lesson-topbar">
+      <button class="back-btn" data-go-home>→ رجوع للرئيسية</button>
+    </div>
+
+    <div class="hub">
+      <div class="badge" id="lvBadge">
+        <b id="lvTitle"></b>
+        <span id="lvSubtitle"></span>
+      </div>
+    </div>
+    <p class="hub-def" id="lvDef"></p>
+    <div class="hub-speak" style="text-align:center">
+      <button class="speak-btn" id="hubSpeakBtn" title="استمع للتعريف">🔊</button>
+    </div>
+
+    <!-- ============ LISTEN ============ -->
+    <div id="listen" class="listen-wrap">
+      <div class="listen-title">🎧 استمع لشرح الأستاذ الكامل</div>
+      <p class="listen-desc">هذا جزء الدرس من محاضرة الأستاذ يوسف سعيدي كاملةً. يمكنك تشغيله ومتابعة الشرح خطوة بخطوة، أو التوقف والعودة إلى أي جزء تريد مراجعته.</p>
+      <div class="video-tabs" id="videoTabs" style="display:none"></div>
+      <div class="video-frame">
+        <iframe id="lvVideo" src="" title="شرح الدرس" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- ============ PDF SECTION ============ -->
+    <div class="pdf-section" id="pdfSection" style="display:none;">
+      <div class="pdf-title">📄 ملف الدرس الشامل</div>
+      <div class="pdf-container">
+        <div class="pdf-toolbar">
+          <div class="pdf-info">
+            <span id="pdfFileName">جاري التحميل...</span>
+            <span id="pdfPageInfo" style="font-size:11px; color:rgba(255,255,255,0.7);">الصفحة: <span id="pdfCurrentPage">-</span>/<span id="pdfTotalPages">-</span></span>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button id="pdfPrev" title="الصفحة السابقة">← السابقة</button>
+            <button id="pdfNext" title="الصفحة التالية">التالية →</button>
+            <button id="pdfFullscreen" class="fullscreen" title="فتح ملء الشاشة">🖥️ ملء الشاشة</button>
+          </div>
+        </div>
+        <div class="pdf-viewer" id="pdfViewer">
+          <div class="pdf-loader loading" id="pdfLoader">جاري تحميل الملف...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PDF FULLSCREEN MODAL ============ -->
+    <div class="pdf-modal" id="pdfModal">
+      <div class="pdf-modal-toolbar">
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button id="fsModalPrev">← السابقة</button>
+          <span id="fsModalPageInfo" style="font-size:12px; min-width:120px;">الصفحة: <span id="fsModalCurrentPage">-</span>/<span id="fsModalTotalPages">-</span></span>
+          <button id="fsModalNext">التالية →</button>
+        </div>
+        <button id="fsModalClose" class="close">✕ إغلاق</button>
+      </div>
+      <div class="pdf-modal-content" id="pdfModalContent">
+        <div class="pdf-loader loading">جاري تحميل الملف...</div>
+      </div>
+    </div>
+
+    <!-- ============ MIND MAP ============ -->
+    <div id="mindmap">
+      <div class="mm-title">🗺️ الخريطة الذهنية للدرس</div>
+      <p class="mm-hint">اضغط على أي عنوان لفتح/طي تفاصيله — رتّبنا القواعد من الأهم إلى التفاصيل لتسهيل الحفظ</p>
+      <div class="mm-wrap" id="mmWrap"></div>
+    </div>
+
+    <!-- ============ EXERCISES MENU ============ -->
+    <div class="exam-window">
+      <div class="exam-window-header">🎯 التمارين والاختبار</div>
+      <p class="ex-sub">اضغط على أي تمرين لفتحه في نافذة مستقلة، وأغلقه بزر ✕ عند الانتهاء</p>
+      <div class="exam-menu-grid">
+        <button class="exam-menu-btn" data-modal="mcqModal">✏️ تمرين 1<span>اختيار من متعدد</span></button>
+        <button class="exam-menu-btn" data-modal="fillModal">✏️ تمرين 2<span>أكمل الفراغ</span></button>
+        <button class="exam-menu-btn" data-modal="tfModal">✔️ تمرين 3<span>صواب أم خطأ</span></button>
+        <button class="exam-menu-btn" data-modal="oralModal">🎙️ تمرين 4<span>تطبيق شفهي</span></button>
+        <button class="exam-menu-btn final-menu-btn" data-modal="finalModal">🏁 نتيجتي النهائية<span>بعد إتمام التمارين الأربعة</span></button>
+      </div>
+    </div>
+
+    <div class="student-card" id="studentCard">
+      <div class="student-row">
+        <span class="student-label">👤 اسم التلميذ(ة):</span>
+        <input type="text" id="studentName" placeholder="اكتب اسمك هنا لتُحفظ نتائجك...">
+      </div>
+      <div class="student-history" id="studentHistory">لا توجد محاولات سابقة بعد — اكتب اسمك وابدأ التمارين! 🌱</div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: EXERCISE 1 : MCQ ============ -->
+  <div class="modal-overlay" id="mcqModal">
+    <div class="exam-window">
+      <button class="modal-close" data-close>✕</button>
+      <div class="exam-window-header">✏️ تمرين 1 — اختيار من متعدد</div>
+      <p class="ex-sub">اختر الإجابة الصحيحة، وستظهر لك النتيجة والتفسير فورًا</p>
+      <p class="score-badge">النتيجة: <b id="mcqScore">0</b> / <span id="mcqTotal">0</span></p>
+      <div class="ex-list" id="mcqList"></div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: EXERCISE 2 : FILL BLANK ============ -->
+  <div class="modal-overlay" id="fillModal">
+    <div class="exam-window">
+      <button class="modal-close" data-close>✕</button>
+      <div class="exam-window-header">✏️ تمرين 2 — أكمل الفراغ</div>
+      <p class="ex-sub">اكتب الإجابة المناسبة بدل الفراغ، ثم اضغط «تحقق»</p>
+      <p class="score-badge">النتيجة: <b id="fillScore">0</b> / <span id="fillTotal">0</span></p>
+      <div class="ex-list" id="fillList"></div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: EXERCISE 3 : TRUE / FALSE ============ -->
+  <div class="modal-overlay" id="tfModal">
+    <div class="exam-window">
+      <button class="modal-close" data-close>✕</button>
+      <div class="exam-window-header">✔️ تمرين 3 — صواب أم خطأ</div>
+      <p class="ex-sub">اقرأ العبارة جيدًا وحدّد إن كانت صحيحة أم خاطئة، وستظهر لك التصحيح فورًا</p>
+      <p class="score-badge">النتيجة: <b id="tfScore">0</b> / <span id="tfTotal">0</span></p>
+      <div class="ex-list" id="tfList"></div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: EXERCISE 4 : ORAL ============ -->
+  <div class="modal-overlay" id="oralModal">
+    <div class="exam-window">
+      <button class="modal-close" data-close>✕</button>
+      <div class="exam-window-header">🎙️ تمرين 4 — تطبيق شفهي</div>
+      <p class="ex-sub">أجب شفهيًا عن كل خانة بالضغط على 🎙️ — إن أخطأت ستظهر إجابتك بالأحمر مع صوت تنبيه، وتحاول من جديد حتى تصبح صحيحة</p>
+      <p class="score-badge">النتيجة: <b id="oralScore">0</b> / <span id="oralTotal">0</span></p>
+      <div class="ex-list" id="exList"></div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: FINAL RESULT ============ -->
+  <div class="modal-overlay" id="finalModal">
+    <div class="exam-window">
+      <button class="modal-close" data-close>✕</button>
+      <div class="exam-window-header">🏁 النتيجة النهائية</div>
+      <p class="ex-sub">بعد إتمام التمارين الأربعة، اضغط الزر لحساب نسبة تمكّنك من الدرس. ستُحفظ نتيجتك في هاتفك لتتم مقارنتها بمحاولتك القادمة</p>
+      <button class="finish-btn" id="finishBtn">✅ إنهاء الاختبار وحساب نتيجتي</button>
+      <div class="final-result" id="finalResult"></div>
+    </div>
+  </div>
+
+  <footer>النحو — دفتر القواعد الشامل: خرائط ذهنية هرمية · استماع · تمارين تفاعلية لكل درس 📖</footer>
+
+<script>
+/* =========================================================================================
+   بيانات الدروس — لإضافة درس جديد لاحقًا: أضف كائنًا جديدًا لمصفوفة LESSONS بنفس البنية:
+   { id, title, subtitle, def, color, video:{yt,start,end}, tree:[...], MCQ:[...], FILL:[...], TF:[...], EX:[...] }
+   - video.yt هو معرّف فيديو يوتيوب (الجزء الذي بعد youtu.be/ أو v= في الرابط). start/end اختياريان (بالثواني) لتقصير المقطع.
+   - tree: مصفوفة أغصان (فروع)، كل غصن: { title, color, rule, example, children:[{title, rule, example}] }
+   ========================================================================================= */
+  const LESSONS = [
+    {
+      id:'atf-nasaq', title:'عطف النسق', subtitle:'حرف يتوسط<br>بين المتبوع والتابع', badgeColor:'#FFC6DA',
+      def:'<b>تعريفه:</b> <mark class="g">الاسم المعطوف</mark> هو <mark class="y">التابع</mark> الذي <mark class="b">يتوسّط</mark> بينه وبين متبوعه (المعطوف عليه) <mark class="g">أحد حروف العطف</mark>.<br><span style="font-size:12.5px">مثال: حضر <mark class="b">محمدٌ</mark> <mark class="g">و</mark><mark class="y">عليٌّ</mark>. (محمد: معطوف عليه — الواو: حرف عطف — علي: معطوف)</span>',
+      video:{yt:'6exMyzoHAaU'},
+      pdf:'Arabic_Conjunction_Rules.pdf',
+      tree:[
+        { title:'حروف تفيد المشاركة في اللفظ (الإعراب) والمعنى معًا (6 حروف)', color:'blue',
+          rule:'هذه الحروف تجعل المعطوف يشارك المعطوف عليه <mark class="b"><b>في الإعراب وفي الحكم (المعنى) معًا</b></mark>.',
+          children:[
+            { title:'الواو', rule:'تفيد <mark class="l"><b>مطلق الجمع</b></mark> بين المعطوف والمعطوف عليه، دون ترتيب.', example:'حضر <mark class="y"><b>محمدٌ</b></mark> <mark class="y"><b>و</b></mark><mark class="y"><b>عليٌّ</b></mark>' },
+            { title:'الفاء', rule:'تفيد <mark class="l"><b>الترتيب والتعقيب</b></mark>، أي العطف بلا مهلة.', example:'حضر محمدٌ <mark class="y"><b>ف</b></mark>زيدٌ' },
+            { title:'ثمّ', rule:'تفيد <mark class="l"><b>الترتيب مع التراخي</b></mark>، أي العطف بمهلة من الزمن.', example:'زرتُ وهرانَ <mark class="y"><b>ثمّ</b></mark> غردايةَ' },
+            { title:'حتى', rule:'تفيد <mark class="l"><b>الغاية والتدرّج</b></mark>. ولا تكون عاطفةً إلا بشرطين: أن يكون المعطوف <mark class="b"><b>اسمًا مفردًا ظاهرًا</b></mark> (لا جملة)، وأن يكون <mark class="b"><b>جزءًا من المعطوف عليه</b></mark> أو مما يشتمل عليه.', example:'أكرمتُ أهلَ القرية <mark class="y"><b>حتى</b></mark> الأغنياءَ &nbsp;|&nbsp; يموتُ الناسُ <mark class="y"><b>حتى</b></mark> الأنبياءُ' },
+            { title:'أو', rule:'تفيد <mark class="l"><b>التخيير</b></mark> أو <mark class="l"><b>التقسيم</b></mark> أو <mark class="l"><b>الشك</b></mark> أو <mark class="l"><b>الإباحة</b></mark> أو <mark class="l"><b>الإبهام</b></mark> بحسب السياق.', example:'اشرب ماءً <mark class="y"><b>أو</b></mark> حليبًا &nbsp;|&nbsp; صلّيتُ ثلاثًا <mark class="y"><b>أو</b></mark> أربعًا &nbsp;|&nbsp; الكلمة اسمٌ <mark class="y"><b>أو</b></mark> فعلٌ <mark class="y"><b>أو</b></mark> حرفٌ' },
+            { title:'أم', rule:'تفيد <mark class="l"><b>التسوية بين شيئين</b></mark> أو <mark class="l"><b>تعيين واحد منهما</b></mark>.', example:'أمسافرٌ محمدٌ <mark class="y"><b>أم</b></mark> زيدٌ؟' }
+          ]
+        },
+        { title:'حروف تفيد المشاركة في اللفظ (الإعراب) فقط (3 حروف)', color:'orange',
+          rule:'هذه الحروف تفيد <mark class="l"><b>المغايرة</b></mark> في المعنى، فتُشرك المعطوف عليه في <mark class="b"><b>الإعراب فقط</b></mark> دون الحكم.',
+          children:[
+            { title:'لا', rule:'تفيد <mark class="l"><b>النفي مع العطف</b></mark>: تنفي الحكم عن المعطوف وتثبته للمعطوف عليه.', example:'جاءتني بشرى <mark class="y"><b>لا</b></mark> تسنيمُ' },
+            { title:'بل', rule:'تفيد <mark class="l"><b>الإضراب</b></mark> (الانتقال عن الحكم الأول إلى الثاني).', example:'قام زيدٌ <mark class="y"><b>بل</b></mark> طارقٌ' },
+            { title:'لكن', rule:'تفيد <mark class="l"><b>الاستدراك</b></mark> بعد نفي أو نهي.', example:'ما جاء إلياسُ <mark class="y"><b>لكن</b></mark> الحارثُ' }
+          ]
+        },
+        { title:'📌 خلاصة القواعد', color:'gold',
+          rule:`<div class="mm-summary-list">
+            <b>1)</b> حروف العطف تسعة: الواو، الفاء، ثمّ، حتى، أو، أم، لا، بل، لكن.<br>
+            <b>2)</b> ستة منها (الواو، الفاء، ثمّ، حتى، أو، أم) تفيد المشاركة في اللفظ (الإعراب) والحكم (المعنى) معًا.<br>
+            <b>3)</b> ثلاثة منها (لا، بل، لكن) تفيد المشاركة في اللفظ (الإعراب) فقط لأنها تفيد المغايرة في المعنى.<br>
+            <b>4)</b> لا تكون «حتى» عاطفة إلا إذا كان المعطوف مفردًا ظاهرًا وجزءًا من المعطوف عليه أو مما يشتمل عليه.<br>
+            <b>5)</b> عطف النسق يكون بواسطة حرف عطف، بخلاف البدل الذي يكون بلا واسطة.
+          </div>` }
+      ],
+      MCQ:[
+        { q:'حضر محمدٌ وعليٌّ. ما دلالة حرف «الواو» هنا؟', options:['الترتيب والتعقيب','مطلق الجمع دون ترتيب','الاستدراك','الغاية'], correct:1, explain:'<b>الواو</b> تفيد مطلق الجمع بين المعطوف والمعطوف عليه، دون ترتيب بينهما.' },
+        { q:'حضر محمدٌ فزيدٌ. أيّ حرف عطف استُعمل، وما دلالته؟', options:['الواو — الجمع','الفاء — الترتيب والتعقيب','ثمّ — التراخي','حتى — الغاية'], correct:1, explain:'الحرف هو <b>الفاء</b>، وهو يفيد الترتيب والتعقيب، أي وقوع الحدث الثاني بلا مهلة.' },
+        { q:'زرتُ وهرانَ ثمّ غردايةَ. ما دلالة «ثمّ» هنا؟', options:['الترتيب والتعقيب بلا مهلة','الترتيب مع التراخي','الإضراب','التخيير'], correct:1, explain:'<b>ثمّ</b> تفيد الترتيب مع التراخي، أي وقوع الحدث الثاني بعد مهلة من الزمن.' },
+        { q:'ما الشرطان اللازمان لتكون «حتى» عاطفة؟', options:['أن يسبقها فعل مضارع فقط','أن يكون المعطوف مفردًا ظاهرًا وجزءًا من المعطوف عليه','أن يكون المعطوف جملة كاملة','لا شروط لذلك'], correct:1, explain:'تشترط «حتى» العاطفة أن يكون المعطوف <b>اسمًا مفردًا ظاهرًا</b>، وأن يكون <b>جزءًا من المعطوف عليه</b> أو مما يشتمل عليه، كما في: يموتُ الناسُ حتى الأنبياءُ.' },
+        { q:'اشرب ماءً أو حليبًا. ما دلالة «أو» في هذه الجملة؟', options:['الشك','الإباحة','التسوية','الاستدراك'], correct:1, explain:'هذا مثال على <b>الإباحة</b>، إذ يمكن الجمع بين الأمرين بعد الأمر.' },
+        { q:'صلّيتُ ثلاثًا أو أربعًا (والمتكلم غير متأكد من العدد). ما دلالة «أو» هنا؟', options:['الشك','الإباحة','التخيير','الإضراب'], correct:0, explain:'«أو» هنا تفيد <b>الشك</b>، لأن المتكلم غير متأكد من العدد الصحيح.' },
+        { q:'الكلمة اسمٌ أو فعلٌ أو حرفٌ. ما دلالة «أو» في هذا التقسيم؟', options:['الإباحة','التقسيم','الاستدراك','الغاية'], correct:1, explain:'«أو» هنا تفيد <b>التقسيم</b>، إذ قسّمت الكلمة إلى ثلاثة أنواع لا رابع لها.' },
+        { q:'أمسافرٌ محمدٌ أم زيدٌ؟ ما دلالة «أم» هنا؟', options:['الاستدراك','التسوية بين شيئين أو تعيين واحد منهما','الإضراب','الغاية'], correct:1, explain:'«أم» بعد همزة الاستفهام تفيد <b>طلب تعيين أحد الأمرين</b>.' },
+        { q:'قام زيدٌ بل طارقٌ. ما دلالة «بل» في هذه الجملة؟', options:['مطلق الجمع','الإضراب (الانتقال عن الحكم الأول)','التسوية','النفي مع العطف'], correct:1, explain:'<b>بل</b> تفيد الإضراب، أي العدول عن الحكم الأول (قيام زيد) إلى الثاني (قيام طارق).' },
+        { q:'جاءتني بشرى لا تسنيمُ. ما دلالة «لا» هنا؟', options:['الإضراب','النفي مع العطف: نفي الحكم عن المعطوف وإثباته للمعطوف عليه','الاستدراك','التخيير'], correct:1, explain:'حرف <b>لا</b> ينفي الحكم عن المعطوف (تسنيم) ويثبته للمعطوف عليه (بشرى).' },
+        { q:'ما جاء إلياسُ لكن الحارثُ. ما دلالة «لكن» هنا؟', options:['الإضراب','التخيير','الاستدراك','الغاية'], correct:2, explain:'«لكن» بعد النفي تفيد <b>الاستدراك</b>، أي تدارك الحكم السابق.' },
+        { q:'أيّ حروف العطف تشارك المعطوفَ عليه في اللفظ (الإعراب) فقط دون الحكم؟', options:['الواو والفاء وثمّ','لا، بل، لكن','حتى، أو، أم','كل حروف العطف بلا استثناء'], correct:1, explain:'حروف <b>لا، بل، لكن</b> تفيد المغايرة في المعنى، فتشارك المعطوف عليه في اللفظ فقط.' },
+        { q:'كم عدد حروف العطف؟', options:['ستة حروف','سبعة حروف','تسعة حروف','عشرة حروف'], correct:2, explain:'حروف العطف <b>تسعة</b>: الواو، الفاء، ثمّ، حتى، أو، أم، لا، بل، لكن.' },
+        { q:'أكرمتُ أهلَ القرية حتى الأغنياءَ. لماذا صحّ العطف بـ«حتى» هنا؟', options:['لأن الأغنياء جملة كاملة','لأن «الأغنياء» جزء ظاهر من «أهل القرية»','لأنها تفيد الاستدراك','لأنها تسبق فعلًا مضارعًا'], correct:1, explain:'صحّ العطف لأن «الأغنياءَ» اسم مفرد ظاهر وهو جزء من «أهل القرية»، فتحقق شرطا «حتى» العاطفة.' }
+      ],
+      FILL:[
+        { s:'حضر محمدٌ ___ عليٌّ.', accept:['الواو','و'], explain:'<b>الواو</b> تفيد مطلق الجمع دون ترتيب.' },
+        { s:'حضر محمدٌ ___ زيدٌ.', accept:['الفاء','ف'], explain:'<b>الفاء</b> تفيد الترتيب والتعقيب بلا مهلة.' },
+        { s:'زرتُ وهرانَ ___ غردايةَ.', accept:['ثم','ثمّ'], explain:'<b>ثمّ</b> تفيد الترتيب مع التراخي.' },
+        { s:'أكرمتُ أهلَ القرية ___ الأغنياءَ.', accept:['حتى'], explain:'<b>حتى</b> تفيد الغاية والتدرّج، والمعطوف هنا جزء من المعطوف عليه.' },
+        { s:'اشرب ماءً ___ حليبًا.', accept:['أو'], explain:'<b>أو</b> هنا تفيد الإباحة بعد أمر.' },
+        { s:'أمسافرٌ محمدٌ ___ زيدٌ؟', accept:['أم'], explain:'<b>أم</b> بعد همزة الاستفهام تفيد طلب التعيين.' },
+        { s:'قام زيدٌ ___ طارقٌ.', accept:['بل'], explain:'<b>بل</b> تفيد الإضراب.' },
+        { s:'جاءتني بشرى ___ تسنيمُ.', accept:['لا'], explain:'<b>لا</b> تنفي الحكم عن المعطوف وتثبته للمعطوف عليه.' },
+        { s:'ما جاء إلياسُ ___ الحارثُ.', accept:['لكن','لكنْ'], explain:'<b>لكن</b> تفيد الاستدراك بعد النفي.' },
+        { s:'يموتُ الناسُ ___ الأنبياءُ.', accept:['حتى'], explain:'<b>حتى</b> تفيد الغاية، والأنبياء جزء من عموم الناس.' },
+        { s:'صلّيتُ ثلاثًا ___ أربعًا (ولستُ متأكدًا من العدد).', accept:['أو'], explain:'<b>أو</b> بعد خبر مع عدم التأكد تفيد الشك.' },
+        { s:'الكلمة اسمٌ ___ فعلٌ ___ حرفٌ.', accept:['أو'], explain:'<b>أو</b> هنا تفيد التقسيم.' }
+      ],
+      TF:[
+        { s:'الفاء تفيد الترتيب مع مهلة من الزمن.', v:false, explain:'خطأ: <b>الفاء</b> تفيد الترتيب <b>بلا مهلة</b>؛ أما التي تفيد التراخي فهي «ثمّ».' },
+        { s:'تشترط «حتى» العاطفة أن يكون المعطوف اسمًا مفردًا ظاهرًا وجزءًا من المعطوف عليه.', v:true, explain:'صواب: هذا هو شرط «حتى» العاطفة، كما في: يموتُ الناسُ حتى الأنبياءُ.' },
+        { s:'«لكن» تأتي دائمًا بعد كلام مثبت.', v:false, explain:'خطأ: «لكن» تأتي بعد <b>نفي أو نهي</b> لتفيد الاستدراك.' },
+        { s:'«بل» تفيد الإضراب، أي الانتقال عن الحكم الأول إلى الثاني.', v:true, explain:'صواب: هذا هو معنى الإضراب الذي تفيده «بل».' },
+        { s:'«أو» تفيد التخيير في كل السياقات دون استثناء.', v:false, explain:'خطأ: تختلف دلالتها بحسب السياق: إباحة أو تخيير أو تقسيم بعد الأمر، وشك بعد الخبر.' },
+        { s:'«لا» تنفي الحكم عن المعطوف عليه وتثبته للمعطوف.', v:false, explain:'خطأ: العكس صحيح؛ «لا» تنفي الحكم عن <b>المعطوف</b> وتثبته للمعطوف عليه.' },
+        { s:'الواو تفيد مطلق الجمع بين المعطوف والمعطوف عليه دون ترتيب بينهما.', v:true, explain:'صواب: هذا معنى «مطلق الجمع» الذي تفيده الواو.' },
+        { s:'«أم» تفيد التسوية بين شيئين أو تعيين واحد منهما.', v:true, explain:'صواب: كما في: أمسافرٌ محمدٌ أم زيدٌ؟' },
+        { s:'حروف «لا، بل، لكن» تشارك المعطوف عليه في اللفظ والحكم معًا.', v:false, explain:'خطأ: تشارك في <b>اللفظ (الإعراب) فقط</b>، لأنها تفيد المغايرة في المعنى.' },
+        { s:'«ثمّ» تفيد الترتيب مع التراخي.', v:true, explain:'صواب: هذا هو الفارق بينها وبين الفاء التي تفيد الترتيب بلا مهلة.' }
+      ],
+      EX:[
+        { s:'حضر محمدٌ وعليٌّ.', a:'محمد', m:'علي', h:'الواو' },
+        { s:'حضر محمدٌ فزيدٌ.', a:'محمد', m:'زيد', h:'الفاء' },
+        { s:'زرتُ وهرانَ ثمّ غردايةَ.', a:'وهران', m:'غرداية', h:'ثم' },
+        { s:'اشرب ماءً أو حليبًا.', a:'ماء', m:'حليبا', h:'أو' },
+        { s:'أمسافرٌ محمدٌ أم زيدٌ؟', a:'محمد', m:'زيد', h:'أم' },
+        { s:'قام زيدٌ بل طارقٌ.', a:'زيد', m:'طارق', h:'بل' },
+        { s:'جاءتني بشرى لا تسنيمُ.', a:'بشرى', m:'تسنيم', h:'لا' },
+        { s:'ما جاء إلياسُ لكن الحارثُ.', a:'إلياس', m:'الحارث', h:'لكن' },
+        { s:'أكرمتُ أهلَ القرية حتى الأغنياءَ.', a:'أهل القرية', m:'الأغنياء', h:'حتى' }
+      ]
+    },
+    {
+      id:'badal', title:'البدل', subtitle:'تابع مقصود<br>بالحكم بلا واسطة', badgeColor:'#AFD4F2',
+      def:'<b>تعريفه:</b> هو <mark class="g">التابع</mark> <mark class="y">المقصود بالحكم</mark> <mark class="b">بلا واسطة</mark>، وأقسامه ثلاثة: <mark class="y">كل من كل</mark> (البدل عين المبدل منه)، <mark class="g">بعض من كل</mark> (البدل جزء حقيقي منه)، <mark class="b">اشتمال</mark> (المبدل منه مشتمل على البدل بغير الجزئية أو الكلية).<br><span style="font-size:12.5px">مثال: جاء زيدٌ <mark class="b">أبوك</mark>. (فـ«أبوك» بدل من «زيد»، وهو عينه)</span>',
+      video:[{yt:'rIgdhDgLFpo', label:'الجزء الأول'}, {yt:'mkkbrDqVhmI', label:'الجزء الثاني'}],
+      pdf:'Mastering_Al-Badal.pdf',
+      tree:[
+        { title:'القسم الأول: بدل مطابق (كل من كل)', color:'blue',
+          rule:'<mark class="b"><b>البدل عينُ المُبدَل منه</b></mark> بالضبط، بلا زيادة أو نقصان، ولا يحتاج ضميرًا رابطًا. يقع في مواضع محددة:',
+          children:[
+            { title:'الاسم المقترن بـ«أل» بعد اسم الإشارة', rule:'يُبدَل من <mark class="l"><b>اسم الإشارة</b></mark> اسمٌ معرَّف بـ«أل».', example:'وأُوحِيَ إليّ هذا <mark class="y"><b>القرآنُ</b></mark>' },
+            { title:'الكنية أو اللقب بعد العَلَم (وكذا ابن/بنت)', rule:'إن اجتمع <mark class="l"><b>الاسم والكنية واللقب</b></mark>، أو <mark class="l"><b>ابن/بنت</b></mark> بعد العلم، أُعرب الثاني منهما بدلًا مطابقًا من الأول.', example:'قرأتَ عن الفاروق <mark class="y"><b>عُمَرَ</b></mark> &nbsp;|&nbsp; أسلم أبو حفصٍ <mark class="y"><b>عُمَرُ</b></mark>' },
+            { title:'الاسم الجامد بعد «أيّها/أيّتها»', rule:'يُبدَل الاسم الجامد الذي يلي المنادى «أيّها/أيّتها».', example:'يا أيّها <mark class="y"><b>النَّاسُ</b></mark> &nbsp;|&nbsp; يا أيّتها <mark class="y"><b>النَّفسُ</b></mark>' },
+            { title:'التفسير بعد المفسَّر', rule:'يُبدَل التفسير الذي يوضّح لفظًا غامضًا مما قبله.', example:'هذا عسجدٌ أيْ <mark class="y"><b>ذَهَبٌ</b></mark>' },
+            { title:'الموصوف بعد الصفة', rule:'يُبدَل الموصوف الذي يلي صفته في الجملة.', example:'إلى صراطِ العزيزِ الحميدِ <mark class="y"><b>اللهِ</b></mark> &nbsp;|&nbsp; أعجبني الشاعرُ <mark class="y"><b>حسّانٌ</b></mark>' },
+            { title:'التكرار لزيادة التوضيح', rule:'تُكرَّر الكلمة نفسها لزيادة المعنى؛ ويُشترط ألا تكون الكلمة المكرَّرة توكيدًا لفظيًّا حتى تُعرب بدلًا.', example:'لَنَسْفَعًا بالنّاصية <mark class="y"><b>ناصيةٍ</b></mark> كاذبةٍ خاطئةٍ' }
+          ]
+        },
+        { title:'القسم الثاني: بدل بعض من كل', color:'green',
+          rule:'<mark class="l"><b>البدل جزء حقيقي</b></mark> من المُبدَل منه، ويتّصل به <mark class="b"><b>ضمير</b></mark> يعود على المُبدَل منه (مساويًا للنصف أو أقل أو أكثر منه)، ويُعرب هذا الضمير دائمًا <mark class="b"><b>في محل جر مضاف إليه</b></mark>.',
+          example:'صرفتُ المالَ <mark class="y"><b>رُبعَه</b></mark> &nbsp;|&nbsp; جاء والداك <mark class="y"><b>أُمُّكَ</b></mark> وأبوك &nbsp;|&nbsp; أعجبتُ بالكتاب <mark class="y"><b>ديباجتِه</b></mark> &nbsp;|&nbsp; أنجزتُ البحثَ <mark class="y"><b>فهارسَه</b></mark> &nbsp;|&nbsp; هبطَ الطائرُ على العمارة <mark class="y"><b>بُرجَها</b></mark> &nbsp;|&nbsp; قرأتُ القصةَ <mark class="y"><b>ثُلثَيها</b></mark>' },
+        { title:'القسم الثالث: بدل الاشتمال', color:'orange',
+          rule:'<mark class="l"><b>المُبدَل منه مشتمل على البدل</b></mark>، وليس البدل جزءًا حقيقيًّا منه، بل مرتبطًا به بغير الجزئية أو الكلية (صفة أو معنى يشتمل عليه). يتّصل بالبدل <mark class="b"><b>ضمير</b></mark> يعود على المُبدَل منه، يُعرب دائمًا <mark class="b"><b>في محل جر مضاف إليه</b></mark>.',
+          example:'عالجَ الطبيبُ المريضَ <mark class="y"><b>رأسَه</b></mark> &nbsp;|&nbsp; أعجبني الطبيبُ <mark class="y"><b>لطفُه</b></mark> &nbsp;|&nbsp; أحببتُ القائدَ <mark class="y"><b>شجاعتَه</b></mark> &nbsp;|&nbsp; أعجبتُ بالأستاذ <mark class="y"><b>مثابرتِه</b></mark>' },
+        { title:'📌 خلاصة القواعد', color:'gold',
+          rule:`<div class="mm-summary-list">
+            <b>1)</b> البدل يتبع المُبدَل منه في الإعراب، والمُبدَل منه يُعرب حسب موقعه في الجملة.<br>
+            <b>2)</b> بدل كل من كل (المطابق) لا يحتاج ضميرًا رابطًا، لأن البدل عين المُبدَل منه.<br>
+            <b>3)</b> بدل بعض من كل وبدل الاشتمال يلزمهما ضمير يعود على المُبدَل منه، يُعرب دائمًا في محل جر مضاف إليه.<br>
+            <b>4)</b> الفرق بينهما: في بدل بعض من كل البدل جزء حقيقي حسي من المُبدَل منه (كالنصف والربع)، أما في بدل الاشتمال فهو صفة أو معنى يشتمل عليه المُبدَل منه دون أن يكون جزءًا حسيًّا منه.<br>
+            <b>5)</b> مواضع بدل كل من كل هي نفسها مواضع عطف البيان، فيصح في إعرابها «بدل» أو «عطف بيان».
+          </div>` }
+      ],
+      MCQ:[
+        { q:'ما تعريف البدل؟', options:['التابع المقصود بالحكم بلا واسطة','التابع الذي يشارك متبوعه في الإعراب بواسطة حرف','التابع الذي يصف متبوعه فقط','التابع الذي يؤكد متبوعه'], correct:0, explain:'البدل هو <b>التابع المقصود بالحكم بلا واسطة</b>.' },
+        { q:'وأُوحِيَ إليّ هذا القرآنُ. ما نوع البدل في «القرآنُ»؟', options:['بدل بعض من كل','بدل الاشتمال','بدل مطابق (كل من كل)','ليس بدلًا'], correct:2, explain:'«القرآنُ» اسم مقترن بـ«أل» بعد اسم الإشارة، وهو عين المُبدَل منه، فهو <b>بدل مطابق</b>.' },
+        { q:'قرأتَ عن الفاروق عُمَرَ. ما نوع البدل في «عُمَرَ»؟', options:['بدل مطابق (كنية/لقب بعد علم)','بدل بعض من كل','بدل الاشتمال','ليس بدلًا'], correct:0, explain:'«عُمَرَ» اجتمع مع لقبه «الفاروق»، فأُعرب اللقب الأول والاسم الثاني بدلًا مطابقًا.' },
+        { q:'يا أيّها الناسُ. ما نوع البدل في «الناسُ»؟', options:['بدل بعض من كل','بدل مطابق (اسم جامد بعد أيها)','بدل الاشتمال','ليس بدلًا'], correct:1, explain:'الاسم الجامد بعد «أيّها» يُعرب <b>بدلًا مطابقًا</b>.' },
+        { q:'هذا عسجدٌ أيْ ذهبٌ. ما نوع البدل في «ذهبٌ»؟', options:['بدل مطابق (تفسير بعد مفسَّر)','بدل بعض من كل','بدل الاشتمال','ليس بدلًا'], correct:0, explain:'«ذهبٌ» تفسير يوضّح اللفظ الغامض «عسجد»، فهو <b>بدل مطابق</b>.' },
+        { q:'صرفتُ المالَ رُبعَه. ما نوع البدل في «رُبعَه»؟', options:['بدل مطابق','بدل بعض من كل','بدل الاشتمال','ليس بدلًا'], correct:1, explain:'«رُبعَه» جزء حقيقي من المال، ومعه ضمير عائد، فهو <b>بدل بعض من كل</b>.' },
+        { q:'أعجبني الطبيبُ لطفُه. ما نوع البدل في «لطفُه»؟', options:['بدل مطابق','بدل بعض من كل','بدل الاشتمال','ليس بدلًا'], correct:2, explain:'«اللطف» ليس جزءًا حسيًّا من الطبيب بل صفة يشتمل عليها، فهو <b>بدل الاشتمال</b>.' },
+        { q:'أحببتُ القائدَ شجاعتَه. ما نوع البدل في «شجاعتَه»؟', options:['بدل مطابق','بدل بعض من كل','بدل الاشتمال','ليس بدلًا'], correct:2, explain:'«الشجاعة» صفة يشتمل عليها القائد، فهو <b>بدل الاشتمال</b>.' },
+        { q:'ما الضمير الذي يلزم بدل بعض من كل وبدل الاشتمال، وكيف يُعرب؟', options:['ضمير يعود على البدل، في محل رفع فاعل','ضمير يعود على المُبدَل منه، في محل جر مضاف إليه','لا يلزمهما ضمير','ضمير يعود على المُبدَل منه، في محل نصب مفعول به'], correct:1, explain:'يلزمهما <b>ضمير يعود على المُبدَل منه</b>، ويُعرب دائمًا <b>في محل جر مضاف إليه</b>.' },
+        { q:'ما الفرق الجوهري بين بدل بعض من كل وبدل الاشتمال؟', options:['لا فرق بينهما','بدل بعض من كل جزء حسي حقيقي، وبدل الاشتمال صفة أو معنى غير حسي','بدل الاشتمال لا يحتاج ضميرًا','بدل بعض من كل لا يتبع المُبدَل منه في الإعراب'], correct:1, explain:'في <b>بدل بعض من كل</b> يكون البدل جزءًا حسيًّا (كالنصف والربع)، وفي <b>بدل الاشتمال</b> يكون صفة أو معنى يشتمل عليه المُبدَل منه.' },
+        { q:'أعجبني الشاعرُ حسّانٌ. ما نوع البدل؟', options:['بدل بعض من كل','بدل مطابق (موصوف بعد صفة)','بدل الاشتمال','ليس بدلًا'], correct:1, explain:'«حسّانٌ» موصوف يلي صفته «الشاعر»، فهو <b>بدل مطابق</b>.' },
+        { q:'أيّ نوع من البدل لا يحتاج إلى ضمير رابط؟', options:['بدل بعض من كل','بدل الاشتمال','بدل مطابق (كل من كل)','كل الأنواع تحتاج ضميرًا'], correct:2, explain:'<b>بدل مطابق (كل من كل)</b> لا يحتاج ضميرًا لأن البدل عين المُبدَل منه تمامًا.' },
+        { q:'ما شرط التكرار حتى يُعرب بدلًا مطابقًا لا توكيدًا لفظيًّا؟', options:['أن تتكرر الكلمة بنفس الحركة الإعرابية فقط','أن تُزاد الكلمة المكرَّرة للمعنى، فتُفيد وصفًا أو تخصيصًا جديدًا','ألا يتكرر اللفظ أكثر من مرة','لا يوجد شرط لذلك'], correct:1, explain:'يُشترط أن تكون الكلمة المكرَّرة <b>زائدة في المعنى</b> حتى لا تكون توكيدًا لفظيًّا، كما في: لَنَسْفَعًا بالناصية ناصيةٍ كاذبة خاطئة.' },
+        { q:'مواضع بدل كل من كل يصح إعرابها أيضًا بابٍ آخر من أبواب التوابع، ما هو؟', options:['النعت','عطف البيان','عطف النسق','التوكيد'], correct:1, explain:'مواضع <b>بدل كل من كل</b> هي نفسها مواضع <b>عطف البيان</b>، فيصح فيها الوجهان.' }
+      ],
+      FILL:[
+        { s:'وأُوحِيَ إليّ هذا القرآنُ. — نوع البدل: ___', accept:['بدل مطابق','بدل كل من كل','مطابق'], explain:'«القرآنُ» عين المُبدَل منه، فهو <b>بدل مطابق</b>.' },
+        { s:'قرأتَ عن الفاروق عُمَرَ. — نوع البدل: ___', accept:['بدل مطابق','بدل كل من كل','مطابق'], explain:'لقب واسم اجتمعا، فأُعرب الثاني بدلًا مطابقًا.' },
+        { s:'يا أيّها الناسُ. — نوع البدل في «الناس»: ___', accept:['بدل مطابق','بدل كل من كل','مطابق'], explain:'اسم جامد بعد «أيّها»، فهو <b>بدل مطابق</b>.' },
+        { s:'صرفتُ المالَ ___ (استخدم كلمة تدل على جزء منه متبوعًا بضمير).', accept:['ربعه','رُبعَه','نصفه','ثلثه'], explain:'مثال: «رُبعَه» بدل بعض من كل، وهو جزء حقيقي من المال متصل بضمير عائد.' },
+        { s:'أعجبني الطبيبُ لطفُه. — نوع البدل: ___', accept:['بدل الاشتمال','اشتمال'], explain:'«اللطف» صفة يشتمل عليها الطبيب، فهو <b>بدل الاشتمال</b>.' },
+        { s:'أحببتُ القائدَ شجاعتَه. — نوع البدل: ___', accept:['بدل الاشتمال','اشتمال'], explain:'«الشجاعة» صفة يشتمل عليها القائد، فهو <b>بدل الاشتمال</b>.' },
+        { s:'أنجزتُ البحثَ فهارسَه. — نوع البدل: ___', accept:['بدل بعض من كل','بعض من كل'], explain:'«فهارسَه» جزء حقيقي من البحث، فهو <b>بدل بعض من كل</b>.' },
+        { s:'هبطَ الطائرُ على العمارة بُرجَها. — نوع البدل: ___', accept:['بدل بعض من كل','بعض من كل'], explain:'«بُرجَها» جزء حقيقي من العمارة، فهو <b>بدل بعض من كل</b>.' },
+        { s:'عالجَ الطبيبُ المريضَ رأسَه. — نوع البدل: ___', accept:['بدل الاشتمال','اشتمال'], explain:'«رأسَه» هنا يُعامَل معاملة الجزء المتّصل بضمير — وسياقه الطبي يجعله بدل اشتمال بمعنى موضع العلاج.' },
+        { s:'الضمير في بدل بعض من كل وبدل الاشتمال يُعرب دائمًا في محل جر ___.', accept:['مضاف إليه'], explain:'يُعرب دائمًا <b>في محل جر مضاف إليه</b>.' }
+      ],
+      TF:[
+        { s:'البدل هو التابع المقصود بالحكم بلا واسطة.', v:true, explain:'صواب: هذا هو تعريف البدل بالضبط.' },
+        { s:'بدل مطابق (كل من كل) يحتاج إلى ضمير يعود على المُبدَل منه.', v:false, explain:'خطأ: <b>بدل مطابق</b> لا يحتاج ضميرًا لأن البدل عين المُبدَل منه.' },
+        { s:'الكنية أو اللقب بعد العَلَم يُعربان بدلًا مطابقًا.', v:true, explain:'صواب: كما في «قرأتَ عن الفاروق عُمَرَ».' },
+        { s:'بدل بعض من كل وبدل الاشتمال يلزمهما ضمير يعود على المُبدَل منه.', v:true, explain:'صواب: وهذا الضمير يُعرب دائمًا في محل جر مضاف إليه.' },
+        { s:'في بدل بعض من كل يكون البدل صفة معنوية لا جزءًا حسيًّا.', v:false, explain:'خطأ: العكس صحيح؛ بدل بعض من كل جزء <b>حسي حقيقي</b>، أما الصفة المعنوية ففي بدل الاشتمال.' },
+        { s:'«أعجبني الطبيبُ لطفُه» مثال على بدل الاشتمال.', v:true, explain:'صواب: «اللطف» صفة يشتمل عليها الطبيب لا جزء حسي منه.' },
+        { s:'يجوز أن يُعرب بدل كل من كل عطف بيان كذلك.', v:true, explain:'صواب: مواضع بدل كل من كل هي نفسها مواضع عطف البيان.' },
+        { s:'التكرار لا يمكن أن يُعرب بدلًا مطابقًا أبدًا.', v:false, explain:'خطأ: التكرار يُعرب بدلًا مطابقًا إذا كان زائدًا في المعنى لا توكيدًا لفظيًّا.' },
+        { s:'البدل يكون بواسطة حرف من حروف العطف.', v:false, explain:'خطأ: البدل يكون <b>بلا واسطة</b>؛ العطف بواسطة حرف هو ما يميّز عطف النسق.' },
+        { s:'الموصوف بعد الصفة يُعرب بدلًا مطابقًا.', v:true, explain:'صواب: كما في «أعجبني الشاعرُ حسّانٌ».' }
+      ],
+      EX:[
+        { s:'وأُوحِيَ إليّ هذا القرآنُ.', a:'هذا', m:'القرآن', h:'بدل مطابق' },
+        { s:'قرأتَ عن الفاروق عُمَرَ.', a:'الفاروق', m:'عمر', h:'بدل مطابق' },
+        { s:'يا أيّها الناسُ.', a:'أيّها', m:'الناس', h:'بدل مطابق' },
+        { s:'هذا عسجدٌ أيْ ذهبٌ.', a:'عسجد', m:'ذهب', h:'بدل مطابق' },
+        { s:'أعجبني الشاعرُ حسّانٌ.', a:'الشاعر', m:'حسّان', h:'بدل مطابق' },
+        { s:'صرفتُ المالَ رُبعَه.', a:'المال', m:'رُبعَه', h:'بدل بعض من كل' },
+        { s:'أنجزتُ البحثَ فهارسَه.', a:'البحث', m:'فهارسَه', h:'بدل بعض من كل' },
+        { s:'أعجبني الطبيبُ لطفُه.', a:'الطبيب', m:'لطفُه', h:'بدل الاشتمال' },
+        { s:'أحببتُ القائدَ شجاعتَه.', a:'القائد', m:'شجاعتَه', h:'بدل الاشتمال' }
+      ]
+    },
+    {
+      id:'adad', title:'العدد', subtitle:'ما دلّ على رتبة<br>أو مقدار', badgeColor:'#B7E8B0',
+      def:'<b>تعريفه:</b> هو <mark class="g">ما دلّ</mark> <mark class="y">على رتبة</mark> <mark class="b">أو مقدار</mark>.<br><span style="font-size:12.5px">مثال: اشتريتُ <mark class="b">ثلاثةَ</mark> كتبٍ. (فـ«ثلاثة» عدد دلّ على مقدار الكتب المشتراة)</span><br><span style="font-size:11.5px">أقسام العدد أربعة: <b>المفرد</b> (1،10،100،1000) — <b>المركب</b> (11←19) — <b>العقود</b> (20،30...90) — <b>المعطوف</b> (21←99 باستثناء العقود)</span>',
+      video:[{yt:'GhujBETbq8E', label:'الجزء الأول'}, {yt:'ldiPtuWF3VE', label:'الجزء الثاني'}],
+      pdf:'Arabic_Number_Command_Center.pdf',
+      tree:[
+        { title:'العدد (1 ، 2)', color:'blue',
+          rule:'1) <mark class="g"><b>العدد يطابق المعدود</b></mark> في التذكير والتأنيث.<br>2) <mark class="b"><b>العدد يُعرب صفة</b></mark>.<br>3) <mark class="b"><b>المعدود يُعرب حسب موقعه</b></mark> في الجملة.',
+          example:'اشتريتُ كتاباً <mark class="y"><b>واحداً</b></mark> &nbsp;|&nbsp; باع التاجر علبتين <mark class="y"><b>اثنتين</b></mark> من الطماطم' },
+        { title:'العدد (3 ← 10)', color:'green',
+          rule:'1) <mark class="o"><b>العدد يخالف المعدود</b></mark> في التذكير والتأنيث.<br>2) <mark class="b"><b>العدد يُعرب حسب موقعه</b></mark> في الجملة.<br>3) <mark class="b"><b>المعدود يُعرب مضافًا إليه</b></mark>.',
+          example:'عاد <mark class="y"><b>أربعةُ</b></mark> جنودٍ من المعركة &nbsp;|&nbsp; قابلتُ <mark class="y"><b>تسعَ</b></mark> معلماتٍ' },
+        { title:'العدد (11 ، 12)', color:'purple',
+          rule:'عددان مركبان <mark class="g"><b>يطابقان المعدود بكلا جزأيهما</b></mark>، والمعدود بعدهما يُعرب <mark class="b"><b>تمييزًا</b></mark> مفردًا منصوبًا.',
+          children:[
+            { title:'العدد 11', rule:'<mark class="p"><b>مركب مبني على فتح الجزأين</b></mark>، في محل رفع أو نصب أو جر حسب موقعه في الجملة.', example:'سافر <mark class="y"><b>أحدَ عشرَ</b></mark> حاجاً &nbsp;|&nbsp; حضرت <mark class="y"><b>إحدى عشرة</b></mark> تلميذة الدرس' },
+            { title:'العدد 12', rule:'الجزء الأول (اثنا/اثنتا) <mark class="b"><b>يُعرب إعراب المثنى</b></mark>، والجزء الثاني (عشر) <mark class="p"><b>مبني على الفتح لا محل له من الإعراب</b></mark>.', example:'اشتريت <mark class="y"><b>اثنتي عشرةَ</b></mark> قصّةً &nbsp;|&nbsp; بعثُ <mark class="y"><b>اثني عشر</b></mark> عصفورًا' }
+          ]
+        },
+        { title:'العدد (13 ← 19)', color:'orange',
+          rule:'1) <mark class="o"><b>جزؤه الأول يخالف المعدود</b></mark>، و<mark class="g"><b>جزؤه الثاني يطابق المعدود</b></mark>.<br>2) <mark class="b"><b>المعدود يُعرب تمييزًا</b></mark> منصوبًا.<br>3) <mark class="p"><b>العدد مبني على فتح الجزأين</b></mark> حسب موقعه في الجملة.',
+          example:'قرأتُ <mark class="y"><b>أربعَ عشرةَ</b></mark> قصّةً &nbsp;|&nbsp; حضر <mark class="y"><b>خمسةَ عشرَ</b></mark> تلميذاً' },
+        { title:'العقود (20، 30 ... 90)', color:'teal',
+          rule:'1) <mark class="g"><b>لفظ واحد لا يتغيّر</b></mark> بتذكير المعدود أو تأنيثه.<br>2) <mark class="b"><b>يُعرب إعراب جمع المذكر السالم</b></mark>: بالواو رفعًا، وبالياء نصبًا وجرًا.<br>3) <mark class="b"><b>المعدود يُعرب تمييزًا</b></mark> مفردًا منصوبًا.',
+          example:'حضر <mark class="y"><b>عشرون</b></mark> طالباً &nbsp;|&nbsp; رأيتُ <mark class="y"><b>ثلاثين</b></mark> طالبةً &nbsp;|&nbsp; مررتُ بـ<mark class="y"><b>تسعين</b></mark> عاملاً' },
+        { title:'المعطوف (21 ← 99 ما عدا العقود)', color:'brown',
+          rule:'يتركّب من جزأين: <mark class="l"><b>آحاد (1←9) معطوفة بالواو على عقد</b></mark> (20، 30...90).<br>1) <mark class="g"><b>جزء الآحاد وحده يطابق أو يخالف المعدود</b></mark> (كحكم 1،2 أو 3←9).<br>2) <mark class="b"><b>جزء العقود يُعرب إعراب جمع المذكر السالم</b></mark>.<br>3) <mark class="b"><b>المعدود يُعرب تمييزًا</b></mark> مفردًا منصوبًا.',
+          example:'حضر <mark class="y"><b>واحدٌ وعشرون</b></mark> طالباً (يطابق) &nbsp;|&nbsp; نجحت <mark class="y"><b>إحدى وثلاثون</b></mark> طالبةً &nbsp;|&nbsp; لهذا أخي <mark class="y"><b>تسعٌ وتسعون</b></mark> نعجةً (يخالف)' },
+        { title:'المئة والألف', color:'gold',
+          rule:'عددان مفردان <mark class="l"><b>يُضافان دائمًا إلى المعدود</b></mark>، بصرف النظر عن تذكيره أو تأنيثه. <mark class="b"><b>المعدود يُعرب مضافًا إليه مفردًا مجرورًا</b></mark>.',
+          example:'أماتَه اللهُ <mark class="y"><b>مئةَ</b></mark> عامٍ &nbsp;|&nbsp; حضر <mark class="y"><b>ألفُ</b></mark> رجلٍ' },
+        { title:'📌 خلاصة القواعد', color:'gold',
+          rule:`<div class="mm-summary-list">
+            <b>1)</b> (1، 2): يطابق المعدود، ويُعرب صفة، والمعدود حسب موقعه.<br>
+            <b>2)</b> (3←10): يخالف المعدود، ويُعرب حسب موقعه، والمعدود مضاف إليه مجموع.<br>
+            <b>3)</b> (11، 12): يطابق المعدود بكلا جزأيه، والمعدود تمييز منصوب. جزء (12) الأول إعراب مثنى.<br>
+            <b>4)</b> (13←19): جزؤه الأول يخالف وجزؤه الثاني يطابق، مبني على فتح الجزأين، والمعدود تمييز.<br>
+            <b>5)</b> العقود (20←90): لفظ واحد لا يتغيّر، يُعرب إعراب جمع المذكر السالم، والمعدود تمييز منصوب.<br>
+            <b>6)</b> المعطوف (21←99 ما عدا العقود): جزء الآحاد يطابق أو يخالف حسب حكمه، وجزء العقود إعراب جمع مذكر سالم، والمعدود تمييز منصوب.<br>
+            <b>7)</b> المئة والألف: مضافان دائمًا، والمعدود بعدهما مفرد مجرور مضاف إليه.
+          </div>` }
+      ],
+      MCQ:[
+        { q:'ما تعريف العدد؟', options:['ما دلّ على رتبة أو مقدار','ما وصف الاسم قبله','ما وضّح متبوعه','ما أكّد متبوعه'], correct:0, explain:'العدد هو <b>ما دلّ على رتبة أو مقدار</b>.' },
+        { q:'كم قسمًا للعدد؟', options:['قسمان','ثلاثة أقسام','أربعة أقسام: المفرد، المركب، العقود، المعطوف','خمسة أقسام'], correct:2, explain:'أقسام العدد <b>أربعة</b>: المفرد، المركب، العقود، المعطوف.' },
+        { q:'الأعداد (1 ، 10 ، 100 ، 1000) تسمى:', options:['المركب','العقود','المفرد','المعطوف'], correct:2, explain:'هذه الأعداد تسمى <b>المفرد</b>.' },
+        { q:'الأعداد (11 ← 19) تسمى:', options:['المفرد','المركب','العقود','المعطوف'], correct:1, explain:'الأعداد من 11 إلى 19 تسمى <b>المركب</b>.' },
+        { q:'اشتريتُ كتاباً واحداً. ما حكم مطابقة العدد «واحداً» للمعدود «كتابًا»؟', options:['يخالفه','يطابقه','لا علاقة بينهما','يُحذف وجوبًا'], correct:1, explain:'العدد <b>(1، 2)</b> يطابق المعدود في التذكير والتأنيث.' },
+        { q:'في المثال السابق، كيف يُعرب العدد «واحداً»؟', options:['مضافًا إليه','تمييزًا','صفة','مفعولًا به'], correct:2, explain:'العدد <b>(1، 2)</b> يُعرب <b>صفة</b> للمعدود.' },
+        { q:'عاد أربعةُ جنودٍ من المعركة. ما حكم مطابقة العدد «أربعة» للمعدود «جنود»؟', options:['يطابقه','يخالفه','مساوٍ له','لا علاقة بينهما'], correct:1, explain:'العدد <b>(3 ← 10)</b> يخالف المعدود في التذكير والتأنيث؛ لذا جاء «أربعة» بتاء مربوطة مع معدود مذكر.' },
+        { q:'كيف يُعرب المعدود بعد العدد (3 ← 10)؟', options:['صفة','تمييزًا','مضافًا إليه مجرورًا','خبرًا'], correct:2, explain:'المعدود بعد العدد (3 ← 10) يُعرب <b>مضافًا إليه</b> مجموعًا.' },
+        { q:'اشتريت اثنتي عشرةَ قصّةً. العدد «12» يطابق المعدود:', options:['بجزئه الأول فقط','بجزئه الثاني فقط','بكلا جزأيه','لا يطابقه إطلاقًا'], correct:2, explain:'العدد <b>(11، 12)</b> يطابق المعدود بكلا جزأيه.' },
+        { q:'كيف يُعرب المعدود بعد الأعداد (11 ← 19)؟', options:['مضافًا إليه','تمييزًا منصوبًا','صفة','نعتًا مرفوعًا'], correct:1, explain:'المعدود بعد الأعداد المركبة (11 ← 19) يُعرب <b>تمييزًا</b> منصوبًا.' },
+        { q:'قرأتُ أربعَ عشرةَ قصّةً. جزء العدد الأول «أربعَ» ______ المعدود، والجزء الثاني «عشرةَ» ______ المعدود.', options:['يطابق / يطابق','يخالف / يطابق','يطابق / يخالف','يخالف / يخالف'], correct:1, explain:'في الأعداد <b>(13 ← 19)</b>، الجزء الأول يخالف المعدود والجزء الثاني يطابقه.' },
+        { q:'رأيتُ أحدَ عشرَ رجلاً. كيف يُعرب «أحد عشر» هنا؟', options:['مبنيًا على كسر الجزأين في محل رفع','مبنيًا على فتح الجزأين في محل نصب مفعول به','معربًا بالحركات الظاهرة','مبنيًا على السكون'], correct:1, explain:'العدد 11 <b>عدد مركب مبني على فتح الجزأين</b>، وهنا في محل نصب مفعول به.' },
+        { q:'غاب اثنتا عشرة تلميذة (فاعل). كيف يُعرب الجزء الأول «اثنتا»؟', options:['مبنيًا على الفتح دائمًا','معربًا حسب موقعه إعراب المثنى (بالألف رفعًا)','مضافًا إليه مجرورًا','تمييزًا منصوبًا'], correct:1, explain:'في العدد 12، الجزء الأول <b>يُعرب حسب موقعه إعراب المثنى</b>، والجزء الثاني مبني على الفتح لا محل له من الإعراب.' },
+        { q:'ما الذي يُميّز عدد (12) عن باقي الأعداد المركبة (11، 13 ← 19)؟', options:['كلا جزأيه مبني على الفتح','جزؤه الأول معرب إعراب المثنى وجزؤه الثاني مبني على الفتح','كلاهما معرب بالحركات الظاهرة','لا فرق بينها إطلاقًا'], correct:1, explain:'عدد (12) وحده جزؤه الأول <b>معرب إعراب المثنى</b>، بخلاف بقية الأعداد المركبة المبنية بكاملها.' },
+        { q:'حضر عشرون طالباً. كيف تُعرب «عشرون»؟', options:['مبنية على الفتح','إعراب جمع المذكر السالم (بالواو رفعًا)','مضافة إليها','تمييزًا منصوبًا'], correct:1, explain:'العقود تُعرب <b>إعراب جمع المذكر السالم</b>: بالواو رفعًا وبالياء نصبًا وجرًا.' },
+        { q:'رأيتُ ثلاثين طالبةً. لماذا لم يتغيّر لفظ «ثلاثين» رغم أن المعدود مؤنث؟', options:['لأنها عدد مركب','لأن العقود لفظ واحد لا يتغيّر بتذكير المعدود أو تأنيثه','لأنها معطوفة','لأنها مضافة'], correct:1, explain:'<b>العقود</b> (20، 30...90) لفظ واحد ثابت لا يتأثر بتذكير المعدود أو تأنيثه.' },
+        { q:'حضر واحدٌ وعشرون طالباً. أيّ جزء من العدد المعطوف يطابق المعدود أو يخالفه؟', options:['جزء العقود فقط','جزء الآحاد فقط','كلا الجزأين معًا','لا شيء منهما'], correct:1, explain:'في العدد المعطوف، <b>جزء الآحاد وحده</b> هو الذي يطابق المعدود أو يخالفه، أما العقود فثابتة اللفظ.' },
+        { q:'لهذا أخي تسعٌ وتسعون نعجةً. ما إعراب المعدود «نعجةً»؟', options:['مضاف إليه مجرور','تمييز مفرد منصوب','فاعل مرفوع','خبر منصوب'], correct:1, explain:'المعدود بعد العدد المعطوف (كما بعد العقود) يُعرب <b>تمييزًا مفردًا منصوبًا</b>.' },
+        { q:'أماتَه اللهُ مئةَ عامٍ. كيف يُعرب «عامٍ»؟', options:['تمييزًا منصوبًا','مضافًا إليه مجرورًا','فاعلًا مرفوعًا','مفعولًا به منصوبًا'], correct:1, explain:'المعدود بعد «مئة» و«ألف» يُعرب دائمًا <b>مضافًا إليه مجرورًا</b>، لأن «مئة» و«ألف» مفردان يُضافان إلى المعدود.' },
+        { q:'حضر ألفُ رجلٍ. هل يتغيّر لفظ «ألف» إذا كان المعدود مؤنثًا؟', options:['نعم يتغيّر دائمًا','لا، فهو مفرد يُضاف بصرف النظر عن تذكير المعدود أو تأنيثه','يتغيّر أحيانًا فقط','يصبح جمعًا'], correct:1, explain:'<b>«مئة» و«ألف»</b> مفردان ثابتان يُضافان إلى المعدود بصرف النظر عن تذكيره أو تأنيثه.' }
+      ],
+      FILL:[
+        { s:'الغائبات ___ تلميذة (12)', accept:['اثنتا عشرة','اثنتا عشر'], explain:'العدد 12 مع معدود مؤنث: <b>اثنتا عشرة</b>.' },
+        { s:'___ تلميذاً ناجح (16)', accept:['ستة عشر'], explain:'العدد 16 مع معدود مذكر: <b>ستة عشر</b>.' },
+        { s:'حضرت ___ تلميذة الدرس (11)', accept:['إحدى عشرة','احدى عشرة'], explain:'العدد 11 مع معدود مؤنث: <b>إحدى عشرة</b>.' },
+        { s:'___ ناجحاً في المؤسسة (19)', accept:['تسعة عشر'], explain:'العدد 19 مع معدود مذكر: <b>تسعة عشر</b>.' },
+        { s:'حضر الجمعة ___ رجال (6)', accept:['ستة'], explain:'العدد (3←10) يخالف المعدود؛ «رجال» مذكر فيكون العدد بتاء مربوطة: <b>ستة</b>.' },
+        { s:'قرأتُ ___ قصص (7)', accept:['سبع'], explain:'العدد (3←10) يخالف المعدود؛ «قصص» مؤنث فيكون العدد بلا تاء: <b>سبع</b>.' },
+        { s:'___ كتب في نحو موجودة في مكتبتي (9)', accept:['تسعة'], explain:'العدد (3←10) يخالف المعدود؛ «كتب» مذكر فيكون العدد بتاء مربوطة: <b>تسعة</b>.' },
+        { s:'مررت بـ ___ معلمات (8)', accept:['ثماني','ثمان','ثمانية'], explain:'العدد (3←10) يخالف المعدود؛ «معلمات» مؤنث فيكون العدد بلا تاء: <b>ثماني</b>.' },
+        { s:'الإسلام ___ أركان (5)', accept:['خمسة'], explain:'العدد (3←10) يخالف المعدود؛ «أركان» مذكر فيكون العدد بتاء مربوطة: <b>خمسة</b>.' },
+        { s:'رميتُ ___ علبة جبن فاسدة (13)', accept:['ثلاث عشرة'], explain:'العدد 13: جزؤه الأول يخالف المعدود وجزؤه الثاني يطابقه؛ «علبة» مؤنث: <b>ثلاث عشرة</b>.' },
+        { s:'قابلت ___ مريضاً في المستشفى (17)', accept:['سبعة عشر'], explain:'العدد 17 مع معدود مذكر: <b>سبعة عشر</b>.' },
+        { s:'اشتريتُ ___ أقلام (3)', accept:['ثلاثة'], explain:'العدد (3←10) يخالف المعدود؛ «أقلام» مذكر فيكون العدد بتاء مربوطة: <b>ثلاثة</b>.' },
+        { s:'بعثُ ___ عصفوراً (12)', accept:['اثني عشر'], explain:'العدد 12 مع معدود مذكر منصوب: <b>اثني عشر</b>.' },
+        { s:'حضر ___ طالباً (20)', accept:['عشرون'], explain:'العقد يُعرب إعراب جمع المذكر السالم؛ فاعل مرفوع بالواو: <b>عشرون</b>.' },
+        { s:'رأيتُ ___ طالبةً (30)', accept:['ثلاثين'], explain:'العقد بعد فعل متعدٍّ يُعرب مفعولاً به منصوبًا بالياء: <b>ثلاثين</b>.' },
+        { s:'حضر ___ وعشرون طالباً (واحد، معدود مذكر)', accept:['واحد'], explain:'جزء الآحاد يطابق المعدود المذكر: <b>واحدٌ</b> وعشرون.' },
+        { s:'نجحت ___ وثلاثون طالبةً (إحدى، معدود مؤنث)', accept:['إحدى'], explain:'جزء الآحاد يطابق المعدود المؤنث: <b>إحدى</b> وثلاثون.' },
+        { s:'أماتَه اللهُ ___ عامٍ (100)', accept:['مئة','مائة'], explain:'«مئة» تُضاف إلى المعدود المجرور: <b>مئةَ</b> عامٍ.' },
+        { s:'حضر ___ رجلٍ (1000)', accept:['ألف'], explain:'«ألف» مضاف إلى المعدود المجرور: <b>ألفُ</b> رجلٍ.' }
+      ],
+      TF:[
+        { s:'العدد (1، 2) يطابق المعدود في التذكير والتأنيث.', v:true, explain:'صواب: العدد (1، 2) يطابق المعدود ويُعرب صفة.' },
+        { s:'العدد (3 ← 10) يطابق المعدود في التذكير والتأنيث.', v:false, explain:'خطأ: <b>العدد (3 ← 10) يخالف المعدود</b> في التذكير والتأنيث.' },
+        { s:'المعدود بعد العدد (3 ← 10) يُعرب مضافًا إليه.', v:true, explain:'صواب: المعدود بعد العدد (3 ← 10) يُعرب مضافًا إليه مجموعًا.' },
+        { s:'المعدود بعد الأعداد (11 ← 19) يُعرب مضافًا إليه.', v:false, explain:'خطأ: <b>المعدود بعد الأعداد (11 ← 19) يُعرب تمييزًا</b> منصوبًا لا مضافًا إليه.' },
+        { s:'العدد 11 عدد مركب مبني على فتح الجزأين.', v:true, explain:'صواب: العدد 11 (أحد عشر / إحدى عشرة) مبني على فتح الجزأين.' },
+        { s:'العدد 12 مبني بكامله على الفتح دون استثناء.', v:false, explain:'خطأ: <b>جزؤه الأول (اثنا/اثنتا) يُعرب إعراب المثنى</b>، والجزء الثاني وحده مبني على الفتح.' },
+        { s:'أقسام العدد أربعة: المفرد، المركب، العقود، المعطوف.', v:true, explain:'صواب: هذه هي أقسام العدد الأربعة.' },
+        { s:'الأعداد (11 ← 19) تسمى العقود.', v:false, explain:'خطأ: الأعداد (11 ← 19) تسمى <b>المركب</b>؛ أما العقود فهي (20، 30، ...، 90).' },
+        { s:'في الأعداد (13 ← 19)، جزؤها الأول يخالف المعدود وجزؤها الثاني يطابقه.', v:true, explain:'صواب: هذا هو حكم الأعداد من 13 إلى 19.' },
+        { s:'العدد (1، 2) يُعرب حسب موقعه في الجملة كباقي الأعداد.', v:false, explain:'خطأ: <b>العدد (1، 2) يُعرب صفة</b> دائمًا، بخلاف العدد (3←10) الذي يُعرب حسب موقعه.' },
+        { s:'العقود (20، 30...90) تتغيّر بتذكير المعدود أو تأنيثه.', v:false, explain:'خطأ: العقود <b>لفظ واحد ثابت</b> لا يتأثر بتذكير المعدود أو تأنيثه.' },
+        { s:'العقود تُعرب إعراب جمع المذكر السالم.', v:true, explain:'صواب: تُعرب بالواو رفعًا وبالياء نصبًا وجرًا.' },
+        { s:'في العدد المعطوف (كواحد وعشرين)، جزء العقود هو الذي يطابق المعدود أو يخالفه.', v:false, explain:'خطأ: <b>جزء الآحاد</b> هو الذي يطابق أو يخالف المعدود، أما العقود فثابتة اللفظ.' },
+        { s:'«مئة» و«ألف» يُضافان إلى المعدود بصرف النظر عن تذكيره أو تأنيثه.', v:true, explain:'صواب: هما عددان مفردان ثابتان يُضافان دائمًا إلى المعدود.' },
+        { s:'المعدود بعد «مئة» و«ألف» يُعرب تمييزًا منصوبًا.', v:false, explain:'خطأ: المعدود بعدهما يُعرب <b>مضافًا إليه مجرورًا</b>، لا تمييزًا.' }
+      ],
+      EX:[
+        { s:'زرتُ سبع ولايات.', a:'سبع', m:'ولايات', h:'مفرد' },
+        { s:'غاب اثنتا عشرة تلميذة.', a:'اثنتا عشرة', m:'تلميذة', h:'مركب' },
+        { s:'رأيتُ أحدَ عشرَ رجلاً.', a:'أحد عشر', m:'رجلا', h:'مركب' },
+        { s:'مررتُ بتسعة أطباء.', a:'تسعة', m:'أطباء', h:'مفرد' },
+        { s:'ستةَ عشرَ تلميذاً ناجح.', a:'ستة عشر', m:'تلميذا', h:'مركب' },
+        { s:'صاحبتُ صديقاً واحداً.', a:'واحدا', m:'صديقا', h:'مفرد' },
+        { s:'قابلتُ اثني عشر حاجّاً مسافراً اليوم.', a:'اثني عشر', m:'حاجا', h:'مركب' },
+        { s:'رميتُ ثلاثَ عشرةَ علبةَ جبنٍ فاسدة.', a:'ثلاث عشرة', m:'علبة', h:'مركب' },
+        { s:'الإسلامُ خمسةُ أركان.', a:'خمسة', m:'أركان', h:'مفرد' },
+        { s:'حضر عشرون طالباً.', a:'عشرون', m:'طالبا', h:'عقد' },
+        { s:'حضر واحدٌ وعشرون طالباً.', a:'واحد وعشرون', m:'طالبا', h:'معطوف' },
+        { s:'أماتَه اللهُ مئةَ عامٍ.', a:'مئة', m:'عام', h:'مفرد كبير' }
+      ]
+    },
+    {
+      id:'istithna', title:'الاستثناء', subtitle:'إخراج اسم بعد أداة<br>عن حكم ما قبلها', badgeColor:'#D8C6F0',
+      def:'<b>تعريفه:</b> هو <mark class="g">الإخراج</mark> بـ<mark class="y">«إلّا»</mark> أو <mark class="b">إحدى أخواتها</mark> <mark class="p">لما بعدها</mark> ممّا قبلها.<br><span style="font-size:12.5px">مثال: حضر الطلابُ <mark class="b">إلّا</mark> <mark class="y">طارقاً</mark>. (فـ«طارقًا» أُخرج من حكم الحضور)</span><br><span style="font-size:11.5px">أدوات الاستثناء: <b>حرف</b> (إلّا) — <b>اسم</b> (غير، سوى) — <b>فعل أو حرف جر</b> (خلا، عدا، حاشا)<br>أنواعه: <b>التام/الناقص</b> (بحسب ذكر المستثنى منه) و<b>المثبت/المنفي</b> (بحسب سبقه بنفي أو نهي أو استفهام)</span>',
+      video:[{yt:'hGpiM1vuIcA', label:'الجزء الأول'}, {yt:'2S0Ac5r7ybY', label:'الجزء الثاني'}],
+      pdf:'Arabic_Exception_Guide.pdf',
+      tree:[
+        { title:'المستثنى بـ«إلّا»', color:'blue',
+          rule:'حكم المستثنى يختلف باختلاف نوع الاستثناء: <mark class="y"><b>تام مثبت</b></mark>، أو <mark class="o"><b>تام منفي</b></mark>، أو <mark class="g"><b>ناقص منفي</b></mark>.',
+          children:[
+            { title:'تام مثبت', rule:'المستثنى منه مذكور ولم يُسبق بنفي. المستثنى <mark class="l"><b>منصوب وجوبًا</b></mark>.', example:'حضر التلاميذُ إلّا <mark class="y"><b>زيداً</b></mark>' },
+            { title:'تام منفي', rule:'المستثنى منه مذكور وسُبق بنفي. المستثنى <mark class="b"><b>منصوب أو بدل</b></mark>، على الخيار.', example:'ما حضر التلاميذُ إلّا <mark class="y"><b>زيداً/زيدٌ</b></mark>' },
+            { title:'ناقص منفي (مفرَّغ)', rule:'المستثنى منه غير مذكور. المستثنى يُعرب <mark class="l"><b>حسب موقعه</b></mark> في الجملة.', example:'ما حضر إلّا <mark class="y"><b>زيدٌ</b></mark> (فاعل)' }
+          ]
+        },
+        { title:'المستثنى بـ«غير» و«سوى»', color:'green',
+          rule:'لهما <mark class="l"><b>نفس أحكام «إلّا»</b></mark> السابقة، وتُعرب «غير»/«سوى» نفس إعراب ما بعد «إلّا». أما الاسم الذي بعدهما فيُعرب دائمًا <mark class="l"><b>مضافًا إليه مجرورًا</b></mark>.<br><span style="font-size:11.5px">تنبيه: تُعرب «سوى» بنفس إعراب «غير»، إلا أنها تُعرب دائمًا <mark class="b"><b>بحركات مقدَّرة</b></mark> (الضمة، الفتحة)، ويمتنع ظهور الكسرة فيها للتعذّر.</span>',
+          example:'حضر التلاميذُ <mark class="y"><b>غيرَ</b></mark> زيدٍ (تام مثبت) &nbsp;|&nbsp; ما حضر <mark class="y"><b>غيرُ</b></mark> زيدٍ (ناقص منفي، فاعل) &nbsp;|&nbsp; حضر التلاميذُ <mark class="y"><b>سِوى</b></mark> بَكْرٍ' },
+        { title:'المستثنى بـ«عدا خلا حاشا»', color:'purple',
+          rule:'لا يمكن هنا تحديد نوع الاستثناء، وإنما يكفي معرفة <mark class="b"><b>الحكم الإعرابي للأداة نفسها</b></mark>؛ يجوز اعتبارها حروف جر أو أفعالاً ماضية.',
+          children:[
+            { title:'فعل ماضٍ', rule:'ما بعدها <mark class="b"><b>منصوب مفعول به</b></mark>، وفاعلها ضمير مستتر «هو».', example:'حضر القوم <mark class="y"><b>عدا/خلا/حاشا</b></mark> <mark class="y"><b>زيداً</b></mark>' },
+            { title:'حرف جر', rule:'ما بعدها <mark class="l"><b>اسم مجرور</b></mark>.', example:'حضر القوم <mark class="y"><b>عدا/خلا/حاشا</b></mark> <mark class="y"><b>زيدٍ</b></mark>' },
+            { title:'مع «ما» المصدرية', rule:'إذا سُبقتا بـ«ما» المصدرية تتعيّن <mark class="l"><b>«خلا» و«عدا» فقط</b></mark> (دون «حاشا») <mark class="l"><b>فعلاً ماضيًا</b></mark>، لأن «ما» المصدرية لا تدخل إلا على الأفعال.', example:'ألا كلّ شيء <mark class="y"><b>ما خلا</b></mark> اللهَ باطل' }
+          ]
+        },
+        { title:'📌 خلاصة القواعد', color:'gold',
+          rule:`<div class="mm-summary-list">
+            <b>1)</b> التام المثبت بـ«إلّا»: المستثنى منصوب وجوبًا.<br>
+            <b>2)</b> التام المنفي بـ«إلّا»: المستثنى منصوب أو بدل (على الخيار).<br>
+            <b>3)</b> الناقص المنفي (المفرَّغ): المستثنى حسب موقعه في الجملة.<br>
+            <b>4)</b> «غير»/«سوى»: نفس أحكام «إلّا»، والاسم بعدهما مضاف إليه دائمًا؛ و«سوى» تُعرب بحركات مقدَّرة.<br>
+            <b>5)</b> «عدا»/«خلا»/«حاشا»: فعل ماضٍ أو حرف جر، إلا مع «ما» المصدرية فتتعيّن «خلا» و«عدا» فعلاً ماضيًا فقط.
+          </div>` }
+      ],
+      MCQ:[
+        { q:'ما تعريف الاستثناء؟', options:['الإخراج بـ«إلّا» أو إحدى أخواتها لما بعدها ممّا قبلها','وصف الاسم بما قبله','توضيح المتبوع بلا واسطة','تأكيد الحكم على المتبوع'], correct:0, explain:'الاستثناء هو <b>الإخراج بـ«إلّا» أو إحدى أخواتها لما بعدها ممّا قبلها</b>.' },
+        { q:'ما أركان الاستثناء؟', options:['المستثنى منه، وأداة الاستثناء، والمستثنى','الفعل والفاعل والمفعول به','المبتدأ والخبر','الاسم والفعل والحرف'], correct:0, explain:'أركان الاستثناء ثلاثة: <b>المستثنى منه، أداة الاستثناء، المستثنى</b>.' },
+        { q:'أدوات الاستثناء ثلاثة أنواع، ما هي؟', options:['حرف (إلّا)، اسم (غير وسوى)، فعل أو حرف جر (خلا عدا حاشا)','حرف فقط','اسم فقط','فعل فقط'], correct:0, explain:'أدوات الاستثناء: <b>حرف (إلّا)</b>، <b>اسم (غير وسوى)</b>، <b>فعل أو حرف جر (خلا عدا حاشا)</b>.' },
+        { q:'الاستثناء التام هو:', options:['ما ذُكر فيه المستثنى منه','ما لم يُذكر فيه المستثنى منه','ما سُبق بنفي فقط','ما لم يُسبق بنفي فقط'], correct:0, explain:'الاستثناء التام هو <b>ما ذُكر فيه المستثنى منه</b>.' },
+        { q:'الاستثناء الناقص هو:', options:['ما ذُكر فيه المستثنى منه','ما لا يُذكر فيه المستثنى منه (استثناء مفرَّغ)','ما جاء مثبتًا فقط','ما جاء تامًا فقط'], correct:1, explain:'الاستثناء الناقص هو <b>ما لا يُذكر فيه المستثنى منه</b>، ويسمى استثناءً مفرَّغًا.' },
+        { q:'الاستثناء المثبت هو:', options:['ما سُبق بنفي أو نهي أو استفهام','ما لم يُسبق بنفي أو نهي أو استفهام','ما لم يُذكر فيه المستثنى منه','ما جاء ناقصًا فقط'], correct:1, explain:'الاستثناء المثبت هو <b>ما لم يُسبق بنفي أو نهي أو استفهام</b>.' },
+        { q:'حضر التلاميذُ إلّا زيداً. ما نوع الاستثناء وحكم «زيداً»؟', options:['تام مثبت، مستثنى منصوب وجوبًا','تام منفي، مستثنى منصوب أو بدل','ناقص منفي، يُعرب حسب موقعه','لا شيء مما ذُكر'], correct:0, explain:'الجملة تامة مثبتة، فـ«زيداً» <b>مستثنى منصوب وجوبًا</b>.' },
+        { q:'ما حضر التلاميذُ إلّا زيدٌ. ما حكم «زيدٌ» هنا؟', options:['مستثنى منصوب وجوبًا فقط','مستثنى منصوب أو بدل من المستثنى منه، على الخيار','فاعل مرفوع وجوبًا','مضاف إليه مجرور'], correct:1, explain:'الاستثناء تام منفي، فيجوز إعراب «زيدٌ» <b>مستثنى منصوبًا أو بدلًا</b>.' },
+        { q:'ما حضر إلّا زيدٌ. ما نوع الاستثناء، وكيف يُعرب «زيدٌ»؟', options:['تام مثبت، منصوب وجوبًا','تام منفي، منصوب أو بدل','ناقص منفي (مفرّغ)، حسب موقعه في الجملة (فاعل هنا)','لا شيء مما ذُكر'], correct:2, explain:'المستثنى منه غير مذكور، فالاستثناء <b>ناقص منفي (مفرّغ)</b>، ويُعرب «زيدٌ» <b>فاعلًا</b> حسب موقعه.' },
+        { q:'حضر التلاميذ غيرَ زيدٍ. كيف تُعرب «غير» هنا؟', options:['مستثنى منصوب لأن الاستثناء تام مثبت','فاعل مرفوع','مضاف إليه مجرور','مبتدأ مرفوع'], correct:0, explain:'«غير» هنا <b>مستثنى منصوب</b> لأن الاستثناء تام مثبت.' },
+        { q:'في المثال السابق، كيف يُعرب الاسم الذي بعد «غير» (زيدٍ)؟', options:['مستثنى منصوب','فاعل مرفوع','مضاف إليه مجرور دائمًا','بدل منصوب'], correct:2, explain:'الاسم بعد «غير» و«سوى» يُعرب <b>مضافًا إليه مجرورًا</b> دائمًا.' },
+        { q:'ما حضر غيرُ زيدٍ. كيف تُعرب «غير» هنا؟', options:['مستثنى منصوب وجوبًا','فاعل مرفوع لأن الاستثناء ناقص منفي','مضاف إليه','حرف جر مبني'], correct:1, explain:'الاستثناء ناقص منفي، فتُعرب «غير» <b>فاعلًا مرفوعًا</b> حسب موقعها.' },
+        { q:'حضر القوم عدا زيداً. كيف تُعرب «عدا» و«زيداً»؟', options:['عدا: فعل ماضٍ، وزيداً: مفعول به منصوب','عدا: حرف جر، وزيداً: اسم مجرور','عدا: حرف عطف، وزيداً: معطوف','عدا: فعل مضارع، وزيداً: فاعل'], correct:0, explain:'إذا اعتُبرت «عدا» فعلًا ماضيًا، كان ما بعدها <b>مفعولًا به منصوبًا</b>.' },
+        { q:'ألا كلّ شيء ما خلا اللهَ باطل. لماذا وجب إعراب «خلا» هنا فعلاً ماضيًا فقط؟', options:['لأنها مسبوقة بـ«ما» المصدرية، ولا تدخل «ما» المصدرية إلا على الأفعال','لأنها في أول الجملة','لأن الفاعل ضمير متصل','لأنها اسم مبني'], correct:0, explain:'«ما» هنا <b>مصدرية</b>، ولا تدخل إلا على الأفعال، فتعيّن إعراب «خلا» <b>فعلًا ماضيًا</b>.' },
+        { q:'حضر التلاميذُ سِوى بَكْرٍ. كيف تُعرب «سوى»، وبأي حركة؟', options:['بحركة ظاهرة دائمًا','بحركة مقدَّرة دائمًا، ويمتنع ظهور الكسرة للتعذر','لا تُعرب لأنها مبنية','مضاف إليه'], correct:1, explain:'«سوى» تُعرب بنفس إعراب «غير» لكن <b>بحركات مقدَّرة</b>، إذ يمتنع ظهور الكسرة للتعذّر.' },
+        { q:'أيّ أداة من «عدا، خلا، حاشا» لا تتعيّن فعلاً ماضيًا عند سبقها بـ«ما» المصدرية؟', options:['عدا','خلا','حاشا','كلها تتعيّن فعلاً'], correct:2, explain:'«ما» المصدرية <b>لا تسبق حاشا</b>؛ إنما تسبق «خلا» و«عدا» فقط، وحينئذ تتعيّنان فعلاً ماضيًا.' }
+      ],
+      FILL:[
+        { s:'حضر التلاميذ إلّا زيداً. — نوع الاستثناء: ___', accept:['تام مثبت'], explain:'المستثنى منه مذكور ولم يُسبق بنفي، فهو <b>تام مثبت</b>.' },
+        { s:'ما حضر التلاميذ إلّا زيداً. — نوع الاستثناء: ___', accept:['تام منفي'], explain:'المستثنى منه مذكور وسُبق بنفي، فهو <b>تام منفي</b>.' },
+        { s:'ما حضر إلّا زيدٌ. — نوع الاستثناء: ___', accept:['ناقص منفي','ناقص منفي مفرغ','مفرغ'], explain:'المستثنى منه غير مذكور، فهو <b>ناقص منفي (مفرّغ)</b>.' },
+        { s:'حضر التلاميذ إلّا زيداً. — إعراب «زيداً»: ___', accept:['مستثنى منصوب'], explain:'في الاستثناء التام المثبت، المستثنى <b>منصوب وجوبًا</b>.' },
+        { s:'ما حضر إلّا زيدٌ. — إعراب «زيدٌ»: ___', accept:['فاعل مرفوع','فاعل'], explain:'في الاستثناء الناقص المنفي، يُعرب المستثنى حسب موقعه؛ وهنا هو <b>فاعل مرفوع</b>.' },
+        { s:'حضر التلاميذ غيرَ زيدٍ. — إعراب «غير»: ___', accept:['مستثنى منصوب'], explain:'«غير» هنا <b>مستثنى منصوب</b> لأن الاستثناء تام مثبت.' },
+        { s:'حضر التلاميذ غيرَ زيدٍ. — إعراب «زيدٍ»: ___', accept:['مضاف إليه مجرور','مضاف اليه'], explain:'الاسم بعد «غير» و«سوى» يُعرب <b>مضافًا إليه مجرورًا</b> دائمًا.' },
+        { s:'ما حضر غيرُ زيدٍ. — إعراب «غير»: ___', accept:['فاعل مرفوع','فاعل'], explain:'الاستثناء ناقص منفي، فتُعرب «غير» <b>فاعلًا مرفوعًا</b>.' },
+        { s:'حضر القوم عدا زيداً. — إعراب «عدا»: ___', accept:['فعل ماض','فعل ماضٍ'], explain:'ما بعدها منصوب، فتُعرب «عدا» <b>فعلًا ماضيًا</b>.' },
+        { s:'حضر القوم عدا زيدٍ. — إعراب «عدا»: ___', accept:['حرف جر'], explain:'ما بعدها مجرور، فتُعرب «عدا» <b>حرف جر</b>.' },
+        { s:'ألا كلّ شيء ما خلا الله باطل. — إعراب «خلا»: ___', accept:['فعل ماض','فعل ماضٍ'], explain:'سبقتها «ما» المصدرية، فتعيّن إعراب «خلا» <b>فعلًا ماضيًا</b> فقط.' },
+        { s:'حضر التلاميذُ سِوى بَكْرٍ. — إعراب «سوى»: ___', accept:['مستثنى منصوب'], explain:'«سوى» هنا مستثنى منصوب (تام مثبت)، لكن بحركة مقدَّرة.' },
+        { s:'الإخراج بـ«إلّا» أو إحدى أخواتها لما بعدها ممّا قبلها يسمى: ___', accept:['الاستثناء','استثناء'], explain:'هذا هو تعريف <b>الاستثناء</b> بالضبط.' }
+      ],
+      TF:[
+        { s:'الاستثناء هو الإخراج بـ«إلّا» أو إحدى أخواتها لما بعدها ممّا قبلها.', v:true, explain:'صواب: هذا هو تعريف الاستثناء بالضبط.' },
+        { s:'الاستثناء التام هو ما لم يُذكر فيه المستثنى منه.', v:false, explain:'خطأ: <b>الاستثناء التام هو ما ذُكر فيه المستثنى منه</b>؛ أما ما لم يُذكر فيه فهو الاستثناء الناقص.' },
+        { s:'الاستثناء الناقص المنفي يسمى أيضًا استثناءً مفرَّغًا.', v:true, explain:'صواب: يُسمى الاستثناء الناقص المنفي استثناءً مفرَّغًا.' },
+        { s:'المستثنى بعد «إلّا» في الاستثناء التام المثبت يُعرب منصوبًا وجوبًا.', v:true, explain:'صواب: في التام المثبت يكون المستثنى منصوبًا وجوبًا.' },
+        { s:'المستثنى بعد «إلّا» في الاستثناء التام المنفي يُعرب منصوبًا وجوبًا فقط دون جواز غيره.', v:false, explain:'خطأ: <b>في التام المنفي يجوز إعرابه منصوبًا أو بدلًا</b> من المستثنى منه.' },
+        { s:'في الاستثناء الناقص المنفي، يُعرب المستثنى حسب موقعه في الجملة.', v:true, explain:'صواب: هذا حكم الاستثناء الناقص المنفي (المفرّغ).' },
+        { s:'«غير» و«سوى» تُعربان بنفس إعراب ما بعد «إلّا»، والاسم بعدهما دائمًا مضاف إليه.', v:true, explain:'صواب: هذا هو حكم المستثنى بـ«غير» و«سوى».' },
+        { s:'«عدا» و«خلا» و«حاشا» تُعرب دائمًا حروف جر فقط.', v:false, explain:'خطأ: <b>يجوز فيها فعل ماضٍ أو حرف جر</b>، على الخيار.' },
+        { s:'إذا سُبقت «عدا» أو «خلا» بـ«ما» المصدرية، وجب إعرابهما حرف جر.', v:false, explain:'خطأ: إذا سُبقتا بـ«ما» المصدرية، <b>وجب إعرابهما فعلاً ماضيًا</b> فقط لأن «ما» المصدرية لا تدخل إلا على الأفعال.' },
+        { s:'«حاشا» يجوز أن تُسبق بـ«ما» المصدرية كما تُسبق «عدا» و«خلا».', v:false, explain:'خطأ: «ما» المصدرية <b>تسبق «خلا» و«عدا» فقط</b>، ولا تسبق «حاشا».' },
+        { s:'«سوى» تُعرب دائمًا بحركات ظاهرة على آخرها.', v:false, explain:'خطأ: «سوى» تُعرب دائمًا <b>بحركات مقدَّرة</b>، ويمتنع ظهور الكسرة للتعذّر.' },
+        { s:'أدوات الاستثناء ثلاثة أنواع: حرف، واسم، وفعل أو حرف جر.', v:true, explain:'صواب: هذه هي أدوات الاستثناء الثلاثة.' }
+      ],
+      EX:[
+        { s:'حضر التلاميذُ إلّا زيداً.', a:'إلا', m:'زيدا', h:'تام مثبت' },
+        { s:'ما حضر التلاميذُ إلّا زيداً.', a:'إلا', m:'زيدا', h:'تام منفي' },
+        { s:'ما حضر إلّا زيدٌ.', a:'إلا', m:'زيد', h:'ناقص منفي' },
+        { s:'حضر التلاميذُ غيرَ زيدٍ.', a:'غير', m:'زيد', h:'تام مثبت' },
+        { s:'ما حضر التلاميذُ غيرَ زيدٍ.', a:'غير', m:'زيد', h:'تام منفي' },
+        { s:'ما حضر غيرُ زيدٍ.', a:'غير', m:'زيد', h:'ناقص منفي' },
+        { s:'حضر الطلابُ إلّا طارقاً.', a:'إلا', m:'طارقا', h:'تام مثبت' },
+        { s:'ما رأيتُ إلّا بكراً.', a:'إلا', m:'بكرا', h:'ناقص منفي' },
+        { s:'حضر التلاميذُ سِوى بَكْرٍ.', a:'سوى', m:'بكر', h:'تام مثبت' }
+      ]
+    },
+    {
+      id:'tamyiz', title:'التمييز', subtitle:'اسم نكرة يفسّر<br>مبهماً من ذات أو نسبة', badgeColor:'#FFE29A',
+      def:'<b>تعريفه:</b> <mark class="g">اسمٌ نكرة</mark> يُذكر <mark class="y">تفسيرًا للمبهم</mark> من <mark class="b">ذاتٍ</mark> أو <mark class="b">نسبة</mark>، ويكون التمييز على معنى «<mark class="l">مِن</mark>».<br><span style="font-size:12.5px">مثال: اشتريتُ عشرين <mark class="y"><b>كتابًا</b></mark> (أي: عشرين <b>من</b> الكتب) — طاب المجتهدُ <mark class="y"><b>نفسًا</b></mark> (أي: <b>من</b> جهة نفسه)</span><br><span style="font-size:11.5px">قاعدة ابن مالك: «اسمٌ بمعنى (مِن) مُبيّنٌ نكرة ~ ينصبُ تمييزًا بما قد فسّره»</span>',
+      video:[{yt:'KgEUmSYl9zk'}],
+      pdf:'Mastering_Al-Tamyeez.pdf',
+      tree:[
+        { title:'تمييز الذات (المفرد / الملفوظ)', color:'blue',
+          rule:'ما كان <mark class="g"><b>مفسّرًا لاسم مبهم مذكور صراحة</b></mark> (ملفوظ) في الجملة، وأشهر مواضعه بعد <mark class="b"><b>العدد</b></mark>:',
+          children:[
+            { title:'العدد المركب', rule:'يُفسّر ما يُشبه <mark class="l"><b>الكيل</b></mark> (مثل: مثقال ذرة).', example:'إنّي رأيتُ <mark class="y"><b>أحدَ عشرَ</b></mark> <mark class="y"><b>كوكبًا</b></mark>' },
+            { title:'العدد المعطوف', rule:'يُفسّر ما يُشبه <mark class="l"><b>الوزن</b></mark> (مثل: كيس، جرّة، سِقاء).', example:'اشتريتُ <mark class="y"><b>رطلًا</b></mark> <mark class="y"><b>زيتًا</b></mark>' },
+            { title:'العقود', rule:'يُفسّر ما يُشبه <mark class="l"><b>المساحة</b></mark> (مثل: ملء الأرض).', example:'عندي <mark class="y"><b>عشرون</b></mark> <mark class="y"><b>ذراعًا</b></mark> <mark class="y"><b>حريرًا</b></mark>' }
+          ]
+        },
+        { title:'تمييز النسبة (الجملة / الملحوظ)', color:'green',
+          rule:'ما كان <mark class="g"><b>مفسّرًا لجملة مبهمة النسبة</b></mark> (لا اسم مذكور بعينه)، وينقسم إلى محوَّل وغير محوَّل:',
+          children:[
+            { title:'محوَّل عن فاعل', rule:'أصل الجملة: <mark class="l"><b>الفاعل مضاف</b></mark> إلى ما بعده، ثم حُوِّل الإسناد وصار الاسم تمييزًا.', example:'اشتعل الرأسُ <mark class="y"><b>شيبًا</b></mark> &nbsp;(الأصل: اشتعل شيبُ الرأس)' },
+            { title:'محوَّل عن مفعول به', rule:'أصل الجملة: <mark class="l"><b>المفعول به مضاف</b></mark> إلى ما بعده، ثم حُوِّل.', example:'وفجَّرنا الأرضَ <mark class="y"><b>عيونًا</b></mark> &nbsp;(الأصل: فجَّرنا عيونَ الأرض)' },
+            { title:'محوَّل عن مبتدأ', rule:'أصل الجملة: <mark class="l"><b>المبتدأ مضاف</b></mark> إلى ما بعده، ثم حُوِّل.', example:'أنا أكثرُ منك <mark class="y"><b>مالًا</b></mark> &nbsp;(الأصل: مالي أكثر منك)' },
+            { title:'غير محوَّل', rule:'يقع بعد <mark class="l"><b>أفعل التفضيل</b></mark> (أكثر، أشدّ، أكبر...) أو بعد أفعال مثل <mark class="l"><b>حسُنَ، ساء، كبُرَ، ازداد، امتلأ</b></mark>.', example:'محمدٌ أكرمُ من خالدٍ <mark class="y"><b>نفسًا</b></mark> &nbsp;|&nbsp; امتلأ الإناءُ <mark class="y"><b>ماءً</b></mark> &nbsp;|&nbsp; تصبَّب زيدٌ <mark class="y"><b>عرقًا</b></mark>' }
+          ]
+        },
+        { title:'الفرق بين الحال والتمييز', color:'orange',
+          rule:'<mark class="b"><b>الحال</b></mark> تأتي لبيان ما انبهم من <mark class="l"><b>الهيئات</b></mark>، أما <mark class="b"><b>التمييز</b></mark> فيأتي لبيان ما انبهم من <mark class="l"><b>الذوات</b></mark> وتمييزها.' },
+        { title:'📌 خلاصة القواعد', color:'gold',
+          rule:`<div class="mm-summary-list">
+            <b>1)</b> التمييز اسم نكرة منصوب دائمًا، ويكون على معنى «مِن».<br>
+            <b>2)</b> تمييز الذات يُفسّر اسمًا مبهمًا مذكورًا (غالبًا بعد الأعداد): المركب للكيل، المعطوف للوزن، العقود للمساحة.<br>
+            <b>3)</b> تمييز النسبة يُفسّر جملة مبهمة النسبة، وينقسم إلى محوَّل (عن فاعل، مفعول به، أو مبتدأ) وغير محوَّل (بعد أفعل التفضيل أو أفعال مثل حسُنَ وامتلأ).<br>
+            <b>4)</b> الحال لبيان الهيئات، والتمييز لبيان الذوات وتمييزها.
+          </div>` }
+      ],
+      MCQ:[
+        { q:'ما تعريف التمييز؟', options:['اسم نكرة يُذكر تفسيرًا لمبهم من ذات أو نسبة','اسم معرفة يوضّح متبوعه','فعل يبيّن الحدث','حرف يربط بين جملتين'], correct:0, explain:'التمييز <b>اسم نكرة</b> يُفسّر مبهمًا من ذات أو نسبة، وهو على معنى «مِن».' },
+        { q:'اشتريتُ عشرين كتابًا. ما معنى «كتابًا» هنا؟', options:['عشرين في الكتب','عشرين من الكتب','عشرين على الكتب','لا معنى مقدّرًا له'], correct:1, explain:'التمييز يكون دائمًا على معنى «<b>مِن</b>»: عشرين من الكتب.' },
+        { q:'إنّي رأيتُ أحدَ عشرَ كوكبًا. ما نوع هذا التمييز؟', options:['تمييز نسبة محوَّل','تمييز ذات (عدد مركب، يفسّر ما يشبه الكيل)','تمييز نسبة غير محوَّل','ليس تمييزًا'], correct:1, explain:'«كوكبًا» تمييز ذات بعد عدد مركب (أحد عشر)، ويُفسّر ما يشبه <b>الكيل</b>.' },
+        { q:'اشتريتُ رطلًا زيتًا. ما نوع التمييز في «زيتًا»؟', options:['تمييز ذات بعد عدد معطوف يفسّر ما يشبه الوزن','تمييز نسبة محوَّل عن فاعل','تمييز نسبة غير محوَّل','مفعول به'], correct:0, explain:'«رطل» وحدة وزن، فتمييزها «زيتًا» يُفسّر ما يشبه <b>الوزن</b>.' },
+        { q:'عندي عشرون ذراعًا حريرًا. كم تمييزًا في هذه الجملة، وما دلالتهما؟', options:['تمييز واحد فقط','تمييزان: «ذراعًا» للعقد (مساحة) و«حريرًا» لـ«ذراعًا» (نوع)','لا يوجد تمييز','ثلاثة تمييزات'], correct:1, explain:'«ذراعًا» تمييز للعدد «عشرون» (يفسّر ما يشبه المساحة)، و«حريرًا» تمييز لـ«ذراعًا» (يوضّح نوعها).' },
+        { q:'اشتعل الرأسُ شيبًا. ما أصل هذه الجملة، وما نوع التمييز؟', options:['اشتعل شيبُ الرأس؛ تمييز نسبة محوَّل عن فاعل','اشتعل الرأس بالشيب؛ تمييز ذات','لا تحويل هنا؛ تمييز غير محوَّل','اشتعل شيبًا الرأس؛ حال'], correct:0, explain:'الأصل: <b>اشتعل شيبُ الرأس</b> (شيبُ فاعل مضاف)، فحُوِّل الإسناد فصار «شيبًا» تمييزًا محوَّلًا عن فاعل.' },
+        { q:'وفجَّرنا الأرضَ عيونًا. ما نوع هذا التمييز؟', options:['محوَّل عن فاعل','محوَّل عن مفعول به','محوَّل عن مبتدأ','غير محوَّل'], correct:1, explain:'الأصل: فجَّرنا عيونَ الأرض (عيونَ مفعول به مضاف)، فحُوِّل التمييز عن <b>مفعول به</b>.' },
+        { q:'أنا أكثرُ منك مالًا. ما نوع هذا التمييز؟', options:['محوَّل عن فاعل','محوَّل عن مفعول به','محوَّل عن مبتدأ','غير محوَّل'], correct:2, explain:'الأصل: مالي أكثر منك (مالي مبتدأ)، فحُوِّل التمييز عن <b>مبتدأ</b>.' },
+        { q:'امتلأ الإناءُ ماءً. ما نوع التمييز في «ماءً»؟', options:['محوَّل عن فاعل','محوَّل عن مفعول به','غير محوَّل (بعد فعل مثل امتلأ)','تمييز ذات'], correct:2, explain:'«امتلأ» من الأفعال التي يأتي تمييزها <b>غير محوَّل</b> مباشرة دون أصل آخر مقدَّر.' },
+        { q:'محمدٌ أكرمُ من خالدٍ نفسًا. ما نوع هذا التمييز؟', options:['محوَّل عن مبتدأ','غير محوَّل (بعد أفعل التفضيل)','محوَّل عن فاعل','تمييز ذات بعد عدد'], correct:1, explain:'«نفسًا» تمييز غير محوَّل وقع بعد صيغة أفعل التفضيل «أكرمُ».' },
+        { q:'ما إعراب التمييز في كل صوره؟', options:['مرفوع دائمًا','مجرور دائمًا','منصوب دائمًا','حسب موقعه في الجملة'], correct:2, explain:'التمييز <b>منصوب دائمًا</b>، وعلامة نصبه الفتحة الظاهرة غالبًا.' },
+        { q:'ما الفرق الجوهري بين الحال والتمييز؟', options:['لا فرق بينهما','الحال لبيان الهيئات، والتمييز لبيان الذوات وتمييزها','الحال منصوبة والتمييز مرفوع','التمييز يأتي جملة فقط'], correct:1, explain:'<b>الحال</b> تبيّن الهيئة وقت وقوع الفعل، بينما <b>التمييز</b> يوضّح ذاتًا مبهمة أو نسبة مبهمة.' },
+        { q:'تصبَّب زيدٌ عرقًا. ما نوع هذا التمييز؟', options:['تمييز ذات بعد عدد','تمييز نسبة غير محوَّل','تمييز نسبة محوَّل عن فاعل','ليس تمييزًا بل حالًا'], correct:1, explain:'«عرقًا» تمييز نسبة غير محوَّل، جاء بعد فعل «تصبَّب» دون أصل مقدَّر آخر.' },
+        { q:'قاعدة ابن مالك «اسمٌ بمعنى (مِن) مُبيّنٌ نكرة» تصف أي مصطلح؟', options:['الحال','التمييز','البدل','المستثنى'], correct:1, explain:'هذا البيت من ألفية ابن مالك يصف <b>التمييز</b> تحديدًا.' }
+      ],
+      FILL:[
+        { s:'إنّي رأيتُ أحدَ عشرَ ___ (كوكب).', accept:['كوكبا','كوكبًا'], explain:'تمييز عدد مركب: <b>كوكبًا</b>.' },
+        { s:'اشتريتُ رطلًا ___ (زيت).', accept:['زيتا','زيتًا'], explain:'تمييز عدد معطوف يفسّر الوزن: <b>زيتًا</b>.' },
+        { s:'عندي عشرون ذراعًا ___ (حرير).', accept:['حريرا','حريرًا'], explain:'تمييز يوضّح نوع «ذراعًا»: <b>حريرًا</b>.' },
+        { s:'اشتعل الرأسُ ___ (شيب).', accept:['شيبا','شيبًا'], explain:'تمييز نسبة محوَّل عن فاعل: <b>شيبًا</b>.' },
+        { s:'أنا أكثرُ منك ___ (مال).', accept:['مالا','مالًا'], explain:'تمييز نسبة محوَّل عن مبتدأ: <b>مالًا</b>.' },
+        { s:'امتلأ الإناءُ ___ (ماء).', accept:['ماء','ماءً'], explain:'تمييز نسبة غير محوَّل بعد فعل «امتلأ»: <b>ماءً</b>.' },
+        { s:'تصبَّب زيدٌ ___ (عرق).', accept:['عرقا','عرقًا'], explain:'تمييز نسبة غير محوَّل: <b>عرقًا</b>.' },
+        { s:'محمدٌ أكرمُ من خالدٍ ___ (نفس).', accept:['نفسا','نفسًا'], explain:'تمييز غير محوَّل بعد أفعل التفضيل: <b>نفسًا</b>.' },
+        { s:'اشتريتُ كيلو جرام ___ (اسم شيء يُوزن).', accept:['سكرا','تمرا','لحما','قهوة','سكرًا','تمرًا','لحمًا'], explain:'التمييز بعد وحدات الوزن يكون نكرة منصوبة تدل على الموزون.' },
+        { s:'كم ___ (اسم يدل على شيء يُعدّ)؟ — تمييز مفرد منصوب بعد «كم» الاستفهامية.', accept:['كتابا','قلما','طالبا','كتابًا','قلمًا','طالبًا'], explain:'تمييز «كم» الاستفهامية يكون مفردًا منصوبًا.' },
+        { s:'حصد الفلاح هكتارًا ___ (قمح).', accept:['قمحا','قمحًا'], explain:'تمييز ذات بعد وحدة مساحة «هكتار»: <b>قمحًا</b>.' },
+        { s:'حسُنَ أحمدُ ___ (خُلق).', accept:['خلقا','خلقًا'], explain:'تمييز نسبة غير محوَّل بعد فعل «حسُنَ»: <b>خُلقًا</b>.' }
+      ],
+      TF:[
+        { s:'التمييز اسم معرفة دائمًا.', v:false, explain:'خطأ: التمييز <b>اسم نكرة</b> دائمًا.' },
+        { s:'التمييز يكون على معنى «مِن».', v:true, explain:'صواب: هذا هو جوهر تعريف التمييز.' },
+        { s:'التمييز بعد العدد المركب يفسّر ما يشبه الكيل.', v:true, explain:'صواب: كما في «أحدَ عشرَ كوكبًا».' },
+        { s:'التمييز بعد العدد المعطوف يفسّر ما يشبه المساحة.', v:false, explain:'خطأ: العدد المعطوف يفسّر ما يشبه <b>الوزن</b>؛ أما المساحة فتُفسَّر بعد العقود.' },
+        { s:'اشتعل الرأسُ شيبًا مثال على تمييز محوَّل عن فاعل.', v:true, explain:'صواب: الأصل «اشتعل شيبُ الرأس».' },
+        { s:'وفجَّرنا الأرضَ عيونًا مثال على تمييز محوَّل عن مبتدأ.', v:false, explain:'خطأ: هو محوَّل عن <b>مفعول به</b>، لأن الأصل «فجَّرنا عيونَ الأرض».' },
+        { s:'تمييز أفعل التفضيل يكون غير محوَّل.', v:true, explain:'صواب: كما في «محمدٌ أكرمُ من خالدٍ نفسًا».' },
+        { s:'التمييز يُعرب دائمًا منصوبًا.', v:true, explain:'صواب: هذا حكم التمييز في جميع صوره.' },
+        { s:'الحال والتمييز لهما نفس الوظيفة تمامًا.', v:false, explain:'خطأ: الحال لبيان <b>الهيئات</b>، والتمييز لبيان <b>الذوات</b> وتمييزها.' },
+        { s:'امتلأ الإناءُ ماءً مثال على تمييز ذات بعد عدد.', v:false, explain:'خطأ: هو تمييز <b>نسبة غير محوَّل</b>، وليس تمييز ذات، إذ لا يوجد عدد في الجملة.' }
+      ],
+      EX:[
+        { s:'إنّي رأيتُ أحدَ عشرَ كوكبًا.', a:'أحد عشر', m:'كوكبا', h:'تمييز ذات (عدد مركب)' },
+        { s:'اشتريتُ رطلًا زيتًا.', a:'رطلا', m:'زيتا', h:'تمييز ذات (عدد معطوف)' },
+        { s:'عندي عشرون ذراعًا حريرًا.', a:'عشرون', m:'ذراعا', h:'تمييز ذات (عقد)' },
+        { s:'اشتعل الرأسُ شيبًا.', a:'اشتعل الرأس', m:'شيبا', h:'تمييز نسبة (محوَّل عن فاعل)' },
+        { s:'وفجَّرنا الأرضَ عيونًا.', a:'فجرنا الأرض', m:'عيونا', h:'تمييز نسبة (محوَّل عن مفعول به)' },
+        { s:'أنا أكثرُ منك مالًا.', a:'أنا أكثر منك', m:'مالا', h:'تمييز نسبة (محوَّل عن مبتدأ)' },
+        { s:'امتلأ الإناءُ ماءً.', a:'امتلأ الإناء', m:'ماء', h:'تمييز نسبة (غير محوَّل)' },
+        { s:'تصبَّب زيدٌ عرقًا.', a:'تصبب زيد', m:'عرقا', h:'تمييز نسبة (غير محوَّل)' },
+        { s:'محمدٌ أكرمُ من خالدٍ نفسًا.', a:'أكرم', m:'نفسا', h:'تمييز نسبة (غير محوَّل)' }
+      ]
+    }
+  ];
+
+  /* =========================================================================================
+     التنقّل بين الرئيسية ودرس معيّن
+  ========================================================================================= */
+  const homeView = document.getElementById('homeView');
+  const lessonView = document.getElementById('lessonView');
+  const lessonGrid = document.getElementById('lessonGrid');
+  let currentLesson = null;
+
+  function progressPct(lesson){
+    // تُحسب لاحقًا عند الحاجة من قاعدة التقدم المحلية؛ تُترك فارغة الآن لتُملأ عند العرض
+    return null;
+  }
+
+  function renderHome(){
+    lessonGrid.innerHTML = '';
+    LESSONS.forEach(lesson=>{
+      const card = document.createElement('div');
+      card.className = 'lesson-card';
+      card.innerHTML = `
+        <div class="lc-badge" style="background:${lesson.badgeColor}">${lesson.title}</div>
+        <div class="lc-title">${lesson.title}</div>
+        <div class="lc-desc">${lesson.subtitle.replace('<br>',' ')}</div>
+      `;
+      card.addEventListener('click', ()=> showLesson(lesson.id));
+      lessonGrid.appendChild(card);
+    });
+    const soon = document.createElement('div');
+    soon.className = 'lesson-card soon';
+    soon.innerHTML = `<div class="lc-badge" style="background:#eee">+</div><div class="lc-title">دروس قادمة</div><div class="lc-desc">قريبًا…</div>`;
+    lessonGrid.appendChild(soon);
+  }
+
+  function showHome(){
+    currentLesson = null;
+    document.getElementById('lvVideo').src = '';
+    homeView.style.display = '';
+    lessonView.style.display = 'none';
+    ['navMindmap','navListen','navMcq','navFill','navTf','navOral','navFinal'].forEach(id=>{
+      document.getElementById(id).style.display = 'none';
+    });
+    window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+  }
+
+  function buildYtSrc(v){
+    let src = `https://www.youtube.com/embed/${v.yt}?rel=0`;
+    if(v.start) src += `&start=${v.start}`;
+    if(v.end) src += `&end=${v.end}`;
+    return src;
+  }
+  function setLessonVideos(lesson){
+    const videos = Array.isArray(lesson.video) ? lesson.video : [lesson.video];
+    const tabsBox = document.getElementById('videoTabs');
+    const frame = document.getElementById('lvVideo');
+    tabsBox.innerHTML = '';
+    if(videos.length > 1){
+      tabsBox.style.display = 'flex';
+      videos.forEach((v, i)=>{
+        const tab = document.createElement('div');
+        tab.className = 'video-tab' + (i===0 ? ' active' : '');
+        tab.textContent = v.label || `الجزء ${i+1}`;
+        tab.addEventListener('click', ()=>{
+          tabsBox.querySelectorAll('.video-tab').forEach(t=>t.classList.remove('active'));
+          tab.classList.add('active');
+          frame.src = buildYtSrc(v);
+        });
+        tabsBox.appendChild(tab);
+      });
+    } else {
+      tabsBox.style.display = 'none';
+    }
+    frame.src = buildYtSrc(videos[0]);
+  }
+  function showLesson(id){
+    const lesson = LESSONS.find(l=>l.id===id);
+    if(!lesson) return;
+    currentLesson = lesson;
+    homeView.style.display = 'none';
+    lessonView.style.display = 'block';
+    ['navMindmap','navListen','navMcq','navFill','navTf','navOral','navFinal'].forEach(nid=>{
+      document.getElementById(nid).style.display = 'inline-block';
+    });
+
+    document.title = lesson.title + ' | النحو';
+    document.getElementById('lvTitle').textContent = lesson.title;
+    document.getElementById('lvSubtitle').innerHTML = lesson.subtitle;
+    document.getElementById('lvDef').innerHTML = lesson.def;
+    setLessonVideos(lesson);
+    
+    // Show/hide PDF section and load PDF if available
+    const pdfSection = document.getElementById('pdfSection');
+    if(lesson.pdf){
+      pdfSection.style.display = 'block';
+      loadPDF(lesson.pdf);
+    } else {
+      pdfSection.style.display = 'none';
+    }
+
+    renderMindmap(lesson);
+    setupExercises(lesson);
+    window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+  }
+
+  document.querySelectorAll('[data-go-home]').forEach(btn=> btn.addEventListener('click', showHome));
+  document.getElementById('navMindmap').addEventListener('click', ()=>{
+    document.getElementById('mindmap').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  document.getElementById('navListen').addEventListener('click', ()=>{
+    document.getElementById('listen').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* =========================================================================================
+     الخريطة الذهنية الهرمية
+  ========================================================================================= */
+  function renderMindmap(lesson){
+    const wrap = document.getElementById('mmWrap');
+    wrap.innerHTML = '';
+
+    const root = document.createElement('div');
+    root.className = 'mm-root';
+    root.innerHTML = `<div class="mm-root-box"><b>${lesson.title}</b><span>${lesson.subtitle.replace('<br>',' ')}</span></div>`;
+    wrap.appendChild(root);
+
+    const branchesWrap = document.createElement('div');
+    branchesWrap.className = 'mm-branches';
+    lesson.tree.forEach((branch, bi)=>{
+      branchesWrap.appendChild(renderBranch(branch, bi===0));
+    });
+    wrap.appendChild(branchesWrap);
+  }
+
+  function renderBranch(branch, openByDefault){
+    const det = document.createElement('details');
+    det.className = 'mm-branch c-' + (branch.color || 'blue');
+    det.open = branch.open !== undefined ? branch.open : !!openByDefault;
+
+    const summary = document.createElement('summary');
+    summary.innerHTML = `<span class="mm-branch-title">${branch.title}</span><span class="chev">▾</span>`;
+    det.appendChild(summary);
+
+    const body = document.createElement('div');
+    body.className = 'mm-branch-body';
+    if(branch.rule) body.innerHTML += `<div class="mm-rule">${branch.rule}</div>`;
+    if(branch.example) body.innerHTML += `<div class="mm-example">${branch.example}</div>`;
+
+    if(branch.children && branch.children.length){
+      const childWrap = document.createElement('div');
+      childWrap.className = 'mm-children';
+      branch.children.forEach(ch=>{
+        const c = document.createElement('div');
+        c.className = 'mm-leaf';
+        c.innerHTML = `
+          <span class="mm-leaf-title">${ch.title}</span>
+          ${ch.rule ? `<div class="mm-leaf-rule">${ch.rule}</div>` : ''}
+          ${ch.example ? `<div class="mm-leaf-example">${ch.example}</div>` : ''}
+        `;
+        childWrap.appendChild(c);
+      });
+      body.appendChild(childWrap);
+    }
+    det.appendChild(body);
+    return det;
+  }
+
+  /* =========================================================================================
+     أدوات مشتركة: تطبيع النص العربي + مقارنة الكلمات
+  ========================================================================================= */
+  function normalizeAr(s){
+    return (s||'')
+      .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D4-\u08E1\u08E3-\u08FF]/g,'')
+      .replace(/[إأآٱا]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/ؤ/g,'و')
+      .replace(/ئ/g,'ي')
+      .replace(/[^ابتثجحخدذرزسشصضطظعغفقكلمنهويء\s]/g,'')
+      .replace(/\s+/g,' ')
+      .trim();
+  }
+  function wordsOf(s){ return normalizeAr(s).split(' ').filter(Boolean); }
+  function levenshtein(a,b){
+    const n=a.length, m=b.length;
+    if(n===0) return m; if(m===0) return n;
+    const dp = Array.from({length:n+1},()=>new Array(m+1).fill(0));
+    for(let i=0;i<=n;i++) dp[i][0]=i;
+    for(let j=0;j<=m;j++) dp[0][j]=j;
+    for(let i=1;i<=n;i++){
+      for(let j=1;j<=m;j++){
+        dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+      }
+    }
+    return dp[n][m];
+  }
+  function wordsClose(a,b){
+    if(a===b) return true;
+    const maxLen = Math.max(a.length,b.length);
+    if(maxLen<=2) return a===b;
+    const tol = maxLen<=4 ? 1 : (maxLen<=7 ? 2 : 3);
+    return levenshtein(a,b) <= tol;
+  }
+  function lcsMatchCount(a,b){
+    const n=a.length, m=b.length;
+    const dp = Array.from({length:n+1},()=>new Array(m+1).fill(0));
+    for(let i=1;i<=n;i++) for(let j=1;j<=m;j++)
+      dp[i][j] = wordsClose(a[i-1],b[j-1]) ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j],dp[i][j-1]);
+    return dp[n][m];
+  }
+  function isCorrect(given, correct){
+    const gw = wordsOf(given), cw = wordsOf(correct);
+    if(gw.length===0) return false;
+    const matched = lcsMatchCount(cw, gw);
+    const allowed = Math.max(1, Math.ceil(cw.length/3));
+    return (cw.length - matched) <= allowed;
+  }
+  function exactMatch(given, acceptList){
+    const g = normalizeAr(given);
+    if(!g) return false;
+    return acceptList.some(a => normalizeAr(a) === g);
+  }
+
+  let audioCtx = null;
+  function beepError(){
+    try{
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const t0 = audioCtx.currentTime;
+      [220, 165].forEach((freq, i)=>{
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.type = 'square'; osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.001, t0 + i*0.14);
+        gain.gain.linearRampToValueAtTime(0.12, t0 + i*0.14 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, t0 + i*0.14 + 0.13);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(t0 + i*0.14); osc.stop(t0 + i*0.14 + 0.15);
+      });
+    }catch(e){}
+  }
+  function beepSuccess(){
+    try{
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const t0 = audioCtx.currentTime;
+      [523, 784].forEach((freq, i)=>{
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.type = 'sine'; osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.001, t0 + i*0.1);
+        gain.gain.linearRampToValueAtTime(0.1, t0 + i*0.1 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, t0 + i*0.1 + 0.18);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(t0 + i*0.1); osc.stop(t0 + i*0.1 + 0.2);
+      });
+    }catch(e){}
+  }
+
+  /* =========================================================================================
+     قراءة صوتية (Text-to-Speech)
+  ========================================================================================= */
+  let arVoice = null;
+  function pickVoice(){
+    const voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+    arVoice = voices.find(v=>/^ar/i.test(v.lang)) || null;
+  }
+  if(window.speechSynthesis){
+    pickVoice();
+    speechSynthesis.onvoiceschanged = pickVoice;
+  }
+  function speakText(text, btn){
+    if(!window.speechSynthesis){ alert('القراءة الصوتية غير مدعومة في هذا المتصفح'); return; }
+    speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'ar-SA';
+    if(arVoice) utter.voice = arVoice;
+    utter.rate = 0.92;
+    if(btn) btn.classList.add('speaking');
+    utter.onend = ()=>{ if(btn) btn.classList.remove('speaking'); };
+    utter.onerror = ()=>{ if(btn) btn.classList.remove('speaking'); };
+    speechSynthesis.speak(utter);
+  }
+  function cleanText(el){
+    return el ? el.textContent.replace(/\s+/g,' ').trim() : '';
+  }
+
+  document.getElementById('hubSpeakBtn').addEventListener('click', (e)=>{
+    speakText(cleanText(document.getElementById('lvDef')), e.currentTarget);
+  });
+
+  /* =========================================================================================
+     نوافذ التمارين المنبثقة (Modals)
+  ========================================================================================= */
+  function openModal(id){
+    const modal = document.getElementById(id);
+    if(!modal) return;
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(modalEl){
+    modalEl.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('[data-modal]').forEach(btn=>{
+    btn.addEventListener('click', ()=> openModal(btn.getAttribute('data-modal')));
+  });
+  document.querySelectorAll('.modal-overlay').forEach(overlay=>{
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(overlay); });
+    const closeBtn = overlay.querySelector('[data-close]');
+    if(closeBtn) closeBtn.addEventListener('click', ()=> closeModal(overlay));
+  });
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.modal-overlay.show').forEach(o=> closeModal(o));
+    }
+  });
+
+  /* =========================================================================================
+     بناء التمارين الأربعة ديناميكيًا حسب الدرس المفتوح
+  ========================================================================================= */
+  let mcqScore=0, fillScore=0, tfScore=0, oralScore=0;
+  let fillChecked = new Set();
+  let oralDone = new Set();
+  const SRClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const FIELDS = [
+    { k:'a', label:'قل: الطرف الأول' },
+    { k:'m', label:'قل: الطرف الثاني' },
+    { k:'h', label:'قل: النوع / الحكم' }
+  ];
+
+  function setupExercises(lesson){
+    mcqScore=0; fillScore=0; tfScore=0; oralScore=0;
+    fillChecked = new Set(); oralDone = new Set();
+
+    /* ---- MCQ ---- */
+    const mcqList = document.getElementById('mcqList');
+    mcqList.innerHTML = '';
+    document.getElementById('mcqScore').textContent = 0;
+    document.getElementById('mcqTotal').textContent = lesson.MCQ.length;
+    lesson.MCQ.forEach((item, qi)=>{
+      const card = document.createElement('div');
+      card.className = 'ex-card';
+      card.innerHTML = `
+        <div class="qn"><span class="num">${qi+1}</span><span class="sent" style="font-size:14.5px">${item.q}</span></div>
+        <div class="mcq-options"></div>
+        <div class="mcq-explain"></div>
+      `;
+      const optsWrap = card.querySelector('.mcq-options');
+      item.options.forEach((opt, oi)=>{
+        const b = document.createElement('button');
+        b.className = 'mcq-btn';
+        b.textContent = opt;
+        b.addEventListener('click', ()=>{
+          const buttons = optsWrap.querySelectorAll('.mcq-btn');
+          buttons.forEach(x=> x.disabled = true);
+          if(oi === item.correct){
+            b.classList.add('correct'); mcqScore++; beepSuccess();
+          } else {
+            b.classList.add('wrong'); buttons[item.correct].classList.add('correct'); beepError();
+          }
+          document.getElementById('mcqScore').textContent = mcqScore;
+          const ex = card.querySelector('.mcq-explain');
+          ex.innerHTML = item.explain;
+          ex.classList.add('show');
+        });
+        optsWrap.appendChild(b);
+      });
+      mcqList.appendChild(card);
+    });
+
+    /* ---- FILL ---- */
+    const fillList = document.getElementById('fillList');
+    fillList.innerHTML = '';
+    document.getElementById('fillScore').textContent = 0;
+    document.getElementById('fillTotal').textContent = lesson.FILL.length;
+    lesson.FILL.forEach((item, qi)=>{
+      const card = document.createElement('div');
+      card.className = 'ex-card';
+      card.innerHTML = `
+        <div class="qn"><span class="num">${qi+1}</span><span class="sent">${item.s}</span></div>
+        <div class="fill-row">
+          <input type="text" placeholder="اكتب الإجابة هنا…">
+          <button>تحقق</button>
+        </div>
+        <div class="fill-feedback"></div>
+      `;
+      const input = card.querySelector('input');
+      const btn = card.querySelector('button');
+      const fb = card.querySelector('.fill-feedback');
+      function check(){
+        const ok = exactMatch(input.value, item.accept);
+        input.classList.remove('ok','bad');
+        input.classList.add(ok ? 'ok' : 'bad');
+        fb.classList.add('show');
+        if(ok){
+          fb.innerHTML = `✅ إجابة صحيحة! ${item.explain}`;
+          beepSuccess();
+          if(!fillChecked.has(qi)){ fillChecked.add(qi); fillScore++; document.getElementById('fillScore').textContent = fillScore; }
+        } else {
+          fb.innerHTML = `❌ حاول مرة أخرى. تلميح: ${item.explain}`;
+          beepError();
+        }
+      }
+      btn.addEventListener('click', check);
+      input.addEventListener('keydown', e=>{ if(e.key==='Enter') check(); });
+      fillList.appendChild(card);
+    });
+
+    /* ---- TF ---- */
+    const tfList = document.getElementById('tfList');
+    tfList.innerHTML = '';
+    document.getElementById('tfScore').textContent = 0;
+    document.getElementById('tfTotal').textContent = lesson.TF.length;
+    lesson.TF.forEach((item, qi)=>{
+      const card = document.createElement('div');
+      card.className = 'ex-card';
+      card.innerHTML = `
+        <div class="qn"><span class="num">${qi+1}</span><span class="sent" style="font-size:14.5px">${item.s}</span></div>
+        <div class="tf-options"></div>
+        <div class="mcq-explain"></div>
+      `;
+      const optsWrap = card.querySelector('.tf-options');
+      [['✅ صواب', true], ['❌ خطأ', false]].forEach(([label, val])=>{
+        const b = document.createElement('button');
+        b.className = 'tf-btn';
+        b.textContent = label;
+        b.addEventListener('click', ()=>{
+          const buttons = optsWrap.querySelectorAll('.tf-btn');
+          buttons.forEach(x=> x.disabled = true);
+          if(val === item.v){
+            b.classList.add('correct'); tfScore++; beepSuccess();
+          } else {
+            b.classList.add('wrong'); buttons[item.v ? 0 : 1].classList.add('correct'); beepError();
+          }
+          document.getElementById('tfScore').textContent = tfScore;
+          const ex = card.querySelector('.mcq-explain');
+          ex.innerHTML = item.explain;
+          ex.classList.add('show');
+        });
+        optsWrap.appendChild(b);
+      });
+      tfList.appendChild(card);
+    });
+
+    /* ---- ORAL ---- */
+    const exList = document.getElementById('exList');
+    exList.innerHTML = '';
+    document.getElementById('oralScore').textContent = 0;
+    document.getElementById('oralTotal').textContent = lesson.EX.length;
+    lesson.EX.forEach((q,i)=>{
+      const card = document.createElement('div');
+      card.className = 'ex-card';
+      card.innerHTML = `
+        <div class="qn"><span class="num">${i+1}</span><span class="sent">${q.s}</span></div>
+        <div class="ex-body"></div>
+      `;
+      exList.appendChild(card);
+      const st = { idx:0, passed:[false,false,false], lastSaid:[null,null,null], lastWasBad:[false,false,false] };
+      renderExCard(card, q, st);
+    });
+
+    renderHistory(document.getElementById('studentName').value.trim());
+  }
+
+  function renderExCard(card, q, st){
+    if(!SRClass){
+      card.querySelector('.ex-body').innerHTML = `<div class="ex-unsupported">🎙️ التعرف على الصوت غير مدعوم في هذا المتصفح.<br>افتحي الصفحة عبر Chrome على أندرويد أو الحاسوب.</div>`;
+      return;
+    }
+    const stepsHtml = FIELDS.map((f,i)=>{
+      let cls = '';
+      if(st.passed[i]) cls='done';
+      else if(i===st.idx) cls = st.wrongFlash===i ? 'wrong' : 'current';
+      return `<span class="${cls}"></span>`;
+    }).join('');
+
+    if(st.idx >= FIELDS.length){
+      card.querySelector('.ex-body').innerHTML = `
+        <div class="ex-steps">${stepsHtml}</div>
+        <div class="ex-done-card">🎉 أحسنت! أجبتَ عن كل عناصر هذه الجملة بشكل صحيح</div>
+      `;
+      return;
+    }
+
+    const f = FIELDS[st.idx];
+    const said = st.lastSaid[st.idx];
+    const saidCls = st.lastWasBad[st.idx] ? 'bad' : (st.passed[st.idx] ? 'ok' : '');
+    card.querySelector('.ex-body').innerHTML = `
+      <div class="ex-steps">${stepsHtml}</div>
+      <div class="ex-field">
+        <div class="flabel"><span class="status">${st.lastWasBad[st.idx] ? '❌' : '🎧'}</span> ${f.label}</div>
+        <div class="ex-said ${saidCls}">${said || 'بانتظار إجابتك…'}</div>
+        <button class="mic-btn" data-idx="${st.idx}">🎙️ اضغط وأجب شفهيًا</button>
+      </div>
+    `;
+    card.querySelector('.mic-btn').addEventListener('click', (e)=> recordExField(card, q, st, e.currentTarget));
+  }
+
+  function recordExField(card, q, st, btn){
+    if(btn.classList.contains('recording')) return;
+    const recognition = new SRClass();
+    recognition.lang = 'ar-SA';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    btn.classList.add('recording');
+    btn.textContent = '🔴 يسجل الآن... تحدث';
+
+    recognition.onresult = (e)=>{
+      const transcript = e.results[0][0].transcript;
+      const f = FIELDS[st.idx];
+      const ok = isCorrect(transcript, q[f.k]);
+      st.lastSaid[st.idx] = transcript;
+      st.lastWasBad[st.idx] = !ok;
+      if(ok){
+        st.passed[st.idx] = true;
+        beepSuccess();
+        st.idx += 1;
+        if(st.idx >= FIELDS.length && !oralDone.has(q)){
+          oralDone.add(q);
+          oralScore = oralDone.size;
+          document.getElementById('oralScore').textContent = oralScore;
+        }
+      } else {
+        beepError();
+      }
+      renderExCard(card, q, st);
+    };
+    recognition.onerror = ()=>{
+      btn.classList.remove('recording');
+      btn.textContent = '🎙️ اضغط وأجب شفهيًا';
+    };
+    recognition.onend = ()=>{
+      btn.classList.remove('recording');
+      btn.textContent = '🎙️ اضغط وأجب شفهيًا';
+    };
+    try{ recognition.start(); }catch(err){ btn.classList.remove('recording'); }
+  }
+
+  /* =========================================================================================
+     اسم التلميذ + حفظ التقدّم محليًا (لكل درس مفتاح مستقل ضمن قاعدة واحدة)
+  ========================================================================================= */
+  const PROGRESS_KEY = 'nahw_progress_v1';
+  const LAST_NAME_KEY = 'nahw_lastName';
+
+  function loadProgressDB(){
+    try{ return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveProgressDB(db){
+    try{ localStorage.setItem(PROGRESS_KEY, JSON.stringify(db)); }catch(e){}
+  }
+
+  const nameInput = document.getElementById('studentName');
+  const historyBox = document.getElementById('studentHistory');
+
+  function renderHistory(name){
+    if(!currentLesson) return;
+    const db = loadProgressDB();
+    const lessonDb = db[currentLesson.id] || {};
+    const records = lessonDb[name] || [];
+    if(!name){
+      historyBox.innerHTML = 'لا توجد محاولات سابقة بعد — اكتب اسمك وابدأ التمارين! 🌱';
+      return;
+    }
+    if(records.length === 0){
+      historyBox.innerHTML = `لا توجد محاولات سابقة باسم <b>${name}</b> في هذا الدرس — هذه أول مرة! 🌱 أنهِ التمارين واضغط زر النتيجة النهائية.`;
+      return;
+    }
+    const last = records[records.length-1];
+    historyBox.innerHTML = `آخر نتيجة محفوظة باسم <b>${name}</b> في هذا الدرس: <b>${last.overall}%</b> (بتاريخ ${last.date}) — حاول أن تتفوق عليها اليوم! 💪`;
+  }
+
+  try{
+    const savedName = localStorage.getItem(LAST_NAME_KEY);
+    if(savedName) nameInput.value = savedName;
+  }catch(e){}
+
+  nameInput.addEventListener('change', ()=>{
+    const n = nameInput.value.trim();
+    try{ localStorage.setItem(LAST_NAME_KEY, n); }catch(e){}
+    renderHistory(n);
+  });
+
+  document.getElementById('finishBtn').addEventListener('click', ()=>{
+    if(!currentLesson) return;
+    const lesson = currentLesson;
+    const name = nameInput.value.trim();
+    if(!name){
+      alert('من فضلك اكتب اسمك في الخانة أعلى الصفحة أولًا 👤');
+      nameInput.focus();
+      nameInput.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    const mcqPct = Math.round((mcqScore / lesson.MCQ.length) * 100);
+    const fillPct = Math.round((fillScore / lesson.FILL.length) * 100);
+    const tfPct = Math.round((tfScore / lesson.TF.length) * 100);
+    const oralPct = Math.round((oralDone.size / lesson.EX.length) * 100);
+    const overall = Math.round((mcqPct + fillPct + tfPct + oralPct) / 4);
+
+    const db = loadProgressDB();
+    db[lesson.id] = db[lesson.id] || {};
+    const records = db[lesson.id][name] || [];
+    const prev = records.length ? records[records.length-1] : null;
+    records.push({
+      date: new Date().toLocaleDateString('ar-EG'),
+      overall, mcq:mcqPct, fill:fillPct, tf:tfPct, oral:oralPct
+    });
+    db[lesson.id][name] = records.slice(-10);
+    saveProgressDB(db);
+    try{ localStorage.setItem(LAST_NAME_KEY, name); }catch(e){}
+
+    let deltaHtml;
+    if(prev){
+      const diff = overall - prev.overall;
+      if(diff > 0){
+        deltaHtml = `<div class="delta up">📈 تطورت في استيعاب الدرس! ارتفعت نسبتك ${diff} نقطة عن المحاولة السابقة (${prev.overall}% ← ${overall}%). أحسنت يا ${name}!</div>`;
+      } else if(diff < 0){
+        deltaHtml = `<div class="delta down">📉 انخفضت نسبتك ${Math.abs(diff)} نقطة عن المحاولة السابقة (${prev.overall}% ← ${overall}%). راجع الدرس وحاول مرة أخرى، أنت قادر!</div>`;
+      } else {
+        deltaHtml = `<div class="delta same">➡️ نفس نسبة محاولتك السابقة (${overall}%). حاول تحسينها في المرة القادمة!</div>`;
+      }
+    } else {
+      deltaHtml = `<div class="delta first">🌱 هذه أول محاولة لك يا ${name} في هذا الدرس، بالتوفيق في تحسين نتيجتك في المرة القادمة!</div>`;
+    }
+
+    const resultBox = document.getElementById('finalResult');
+    resultBox.innerHTML = `
+      <div class="overall-circle">${overall}%</div>
+      <div class="breakdown">
+        <div>✏️ تمرين 1 — اختيار من متعدد: ${mcqScore}/${lesson.MCQ.length} (${mcqPct}%)</div>
+        <div>✏️ تمرين 2 — أكمل الفراغ: ${fillScore}/${lesson.FILL.length} (${fillPct}%)</div>
+        <div>✔️ تمرين 3 — صواب أم خطأ: ${tfScore}/${lesson.TF.length} (${tfPct}%)</div>
+        <div>🎙️ تمرين 4 — تطبيق شفهي: ${oralDone.size}/${lesson.EX.length} (${oralPct}%)</div>
+      </div>
+      ${deltaHtml}
+    `;
+    resultBox.classList.add('show');
+    renderHistory(name);
+    resultBox.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  /* =========================================================================================
+     تثبيت التطبيق (PWA install prompt)
+  ========================================================================================= */
+  let deferredInstallPrompt = null;
+  const installBtn = document.getElementById('installBtn');
+  const installToast = document.getElementById('installToast');
+  const installToastGo = document.getElementById('installToastGo');
+  const installToastClose = document.getElementById('installToastClose');
+
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    installBtn.classList.add('show');
+    if(!sessionStorage.getItem('installDismissed')){
+      installToast.classList.add('show');
+    }
+  });
+
+  async function triggerInstall(){
+    if(!deferredInstallPrompt) return;
+    installToast.classList.remove('show');
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    installBtn.classList.remove('show');
+  }
+  installBtn.addEventListener('click', triggerInstall);
+  installToastGo.addEventListener('click', triggerInstall);
+  installToastClose.addEventListener('click', ()=>{
+    installToast.classList.remove('show');
+    sessionStorage.setItem('installDismissed','1');
+  });
+  window.addEventListener('appinstalled', ()=>{
+    installBtn.classList.remove('show');
+    installToast.classList.remove('show');
+  });
+
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    });
+  }
+
+  /* =========================================================================================
+     PDF Viewer System
+  ========================================================================================= */
+  let currentPdfDoc = null;
+  let currentPdfPage = 1;
+  let totalPdfPages = 0;
+  
+  async function loadPDF(pdfPath) {
+    if (!window.pdfjsLib) {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+      script.onload = () => {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        loadPdfFile(pdfPath);
+      };
+      document.head.appendChild(script);
+    } else {
+      loadPdfFile(pdfPath);
+    }
+  }
+  
+  async function loadPdfFile(pdfPath) {
+    try {
+      const loader = document.getElementById('pdfLoader');
+      const viewer = document.getElementById('pdfViewer');
+      
+      loader.classList.add('loading');
+      loader.textContent = 'جاري تحميل الملف...';
+      
+      currentPdfDoc = await window.pdfjsLib.getDocument(pdfPath).promise;
+      totalPdfPages = currentPdfDoc.numPages;
+      currentPdfPage = 1;
+      
+      document.getElementById('pdfFileName').textContent = pdfPath.split('/').pop();
+      document.getElementById('pdfTotalPages').textContent = totalPdfPages;
+      document.getElementById('fsModalTotalPages').textContent = totalPdfPages;
+      
+      renderPdfPage(1, viewer);
+      loader.classList.remove('loading');
+      loader.textContent = '';
+      
+      // Enable buttons
+      document.getElementById('pdfNext').disabled = totalPdfPages <= 1;
+      document.getElementById('pdfPrev').disabled = true;
+    } catch(e) {
+      console.error('PDF loading error:', e);
+      document.getElementById('pdfLoader').textContent = 'خطأ في تحميل الملف. تأكد من توفر الملف.';
+    }
+  }
+  
+  async function renderPdfPage(pageNum, container) {
+    if (!currentPdfDoc || pageNum < 1 || pageNum > totalPdfPages) return;
+    
+    currentPdfPage = pageNum;
+    const page = await currentPdfDoc.getPage(pageNum);
+    const scale = 1.5;
+    const viewport = page.getViewport({scale});
+    
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    
+    await page.render({
+      canvasContext: context,
+      viewport: viewport
+    }).promise;
+    
+    // Clear container
+    container.innerHTML = '';
+    container.appendChild(canvas);
+    
+    // Update page info
+    document.getElementById('pdfCurrentPage').textContent = pageNum;
+    document.getElementById('fsModalCurrentPage').textContent = pageNum;
+    
+    // Update button states
+    document.getElementById('pdfPrev').disabled = pageNum <= 1;
+    document.getElementById('pdfNext').disabled = pageNum >= totalPdfPages;
+    document.getElementById('fsModalPrev').disabled = pageNum <= 1;
+    document.getElementById('fsModalNext').disabled = pageNum >= totalPdfPages;
+  }
+  
+  // PDF Navigation
+  document.getElementById('pdfNext').addEventListener('click', () => {
+    if (currentPdfPage < totalPdfPages) {
+      renderPdfPage(currentPdfPage + 1, document.getElementById('pdfViewer'));
+    }
+  });
+  
+  document.getElementById('pdfPrev').addEventListener('click', () => {
+    if (currentPdfPage > 1) {
+      renderPdfPage(currentPdfPage - 1, document.getElementById('pdfViewer'));
+    }
+  });
+  
+  // Fullscreen modal
+  document.getElementById('pdfFullscreen').addEventListener('click', () => {
+    document.getElementById('pdfModal').classList.add('show');
+    const canvas = document.querySelector('#pdfViewer canvas');
+    if (canvas) {
+      const modalContent = document.getElementById('pdfModalContent');
+      modalContent.innerHTML = '';
+      modalContent.appendChild(canvas.cloneNode(true));
+    }
+  });
+  
+  document.getElementById('fsModalClose').addEventListener('click', () => {
+    document.getElementById('pdfModal').classList.remove('show');
+  });
+  
+  document.getElementById('fsModalNext').addEventListener('click', () => {
+    if (currentPdfPage < totalPdfPages) {
+      const newPage = currentPdfPage + 1;
+      renderPdfPage(newPage, document.getElementById('pdfViewer'));
+      renderPdfPage(newPage, document.getElementById('pdfModalContent'));
+    }
+  });
+  
+  document.getElementById('fsModalPrev').addEventListener('click', () => {
+    if (currentPdfPage > 1) {
+      const newPage = currentPdfPage - 1;
+      renderPdfPage(newPage, document.getElementById('pdfViewer'));
+      renderPdfPage(newPage, document.getElementById('pdfModalContent'));
+    }
+  });
+  
+  // Close modal with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('pdfModal').classList.remove('show');
+    }
+  });
+
+  /* =========================================================================================
+     الإقلاع
+  ========================================================================================= */
+  renderHome();
+</script>
+</body>
+</html>
